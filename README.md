@@ -1,7 +1,22 @@
-**ai-dev**
-We building the AI developer.
-We going to use microsoft autogen.
-Python language.
+# AI Developer
+
+## About
+- this repository is for AI software developer. Simply put - automated SDLC process.
+
+## Technostack
+- python 3
+- autogen
+- AWS
+- Docker
+- terraform
+- bash shell
+
+## How it works in more details
+1. This repository contains main code of the automated tool.
+2. The tool itself may be laucnhed locally and used for a 
+
+## Agreements
+
 
 **MVP выглядит так:**
 - помещаем в контекст LLM список инструментов:

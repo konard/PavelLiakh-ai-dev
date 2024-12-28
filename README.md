@@ -5,12 +5,14 @@
   
 
 ## Technostack
+Main technologies used:
 - python 3
 - autogen
 - AWS
 - Docker
 - terraform
 - bash shell
+- openai chatpgt-4o mini model
 
 
 ## How it works in more details

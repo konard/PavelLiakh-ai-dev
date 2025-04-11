@@ -1,0 +1,78 @@
+tmp
+
+storage*
+**/sessions**
+
+bash.exe.stackdump
+debug
+cache
+file_storage
+
+## Custom filder for runtime temporal files
+temporal/
+uploads
+
+## MacOS specific files
+.DS_Store
+**/.DS_Store
+
+## Custom file with instance IP
+## Custom file with instance IP
+instance_ip.txt
+
+## Some cache, I dont know what exactly
+.cache
+src/.cache
+tests/benchmark/data/cache.json
+
+## pytest
+report.html
+
+## Terraform
+cicd/terraform-entry-key-pem.pem
+cicd/terraform/terraform-entry-key-pem.pem
+cicd/terraform/terraform.tfstate*
+cicd/terraform/.terraform**
+
+.coverage
+tests/integration/coding/**
+
+## venv
+.venv
+
+## Other
+.aider*
+storage
+test-storage
+
+## PyCharm
+.idea
+
+#VSCode
+.vscode
+
+# py
+__pycache__/
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# dotenv environment variable files
+.env
+.env.*
+!.env.example
+
+# Logs
+logs
+*.log
+/nul

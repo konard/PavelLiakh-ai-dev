@@ -9,6 +9,7 @@ from src.infrastructure.web_server import run_webserver
 
 logger = logging.getLogger(__name__)
 
+
 def main() -> NoReturn:
     setup_logging()
     logger.info("Starting application initialization")

@@ -62,7 +62,7 @@ def to_json(some_object):
         """JSON serializer for objects not serializable by default json code"""
         if isinstance(obj, (datetime, date)):
             return obj.isoformat()
-        if hasattr(obj, '__module__') and obj.__module__ == 'decimal' and isinstance(obj, Decimal):
+        if hasattr(obj, "__module__") and obj.__module__ == "decimal" and isinstance(obj, Decimal):
             return float(obj)
         raise TypeError(f"Type {type(obj)} not serializable")
 

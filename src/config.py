@@ -36,9 +36,11 @@ def get_required_env(var_name: str) -> str:
 This one is an abstraction of Environment config. 
 See https://12factor.net/config
 """
+
+
 class Config:
     def __init__(self):
-        #1 Independent variables
+        # 1 Independent variables
         self.port = 80
         self.env_name = os.getenv("ENV_NAME", DEV_ENV_NAME).upper()
 
@@ -56,7 +58,7 @@ class Config:
         )
         os.makedirs(self.workspace, exist_ok=True)
 
-        #2 Dependent variables
+        # 2 Dependent variables
         self.storage_path = (
             self.get_folder("tests/test-storage") if is_test else self.get_folder("storage")
         )

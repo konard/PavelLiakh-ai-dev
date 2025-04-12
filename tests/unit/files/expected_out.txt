@@ -1,5 +1,0 @@
-DataFrame:     A   B
-0  10  40
-1  20  50
-2  30  60
-Average A: 20.0

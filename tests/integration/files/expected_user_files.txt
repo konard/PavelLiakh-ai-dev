@@ -1,6 +1,0 @@
-Your files:
-1. default
-2. big
-3. report.pdf
-4. data.csv
-Current: default

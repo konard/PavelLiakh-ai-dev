@@ -1,3 +1,8 @@
+"""
+This one is an abstraction of Environment config.
+See https://12factor.net/config
+"""
+
 import sys
 
 from dotenv import load_dotenv
@@ -30,12 +35,6 @@ def get_required_env(var_name: str) -> str:
     if not value:
         raise EnvironmentError(f"{var_name} environment variable is not set")
     return value
-
-
-"""
-This one is an abstraction of Environment config. 
-See https://12factor.net/config
-"""
 
 
 class Config:

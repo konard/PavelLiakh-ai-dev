@@ -1,47 +1,22 @@
 storage*
-**/sessions**
-
-bash.exe.stackdump
-debug
-cache
 file_storage
 
-## Custom filder for runtime temporal files
-temporal/
-uploads
+bash.exe.stackdump
+
 
 ## MacOS specific files
 .DS_Store
 **/.DS_Store
 
-## Custom file with instance IP
-## Custom file with instance IP
-instance_ip.txt
-
-## Some cache, I dont know what exactly
-.cache
-src/.cache
-tests/benchmark/data/cache.json
-
 ## pytest
 report.html
-
-## Terraform
-cicd/terraform-entry-key-pem.pem
-cicd/terraform/terraform-entry-key-pem.pem
-cicd/terraform/terraform.tfstate*
-cicd/terraform/.terraform**
-
 .coverage
-tests/integration/coding/**
 
 ## venv
 .venv
 
 ## Other
 .aider*
-storage
-test-storage
 
 ## PyCharm
 .idea
@@ -73,4 +48,3 @@ __pycache__/
 # Logs
 logs
 *.log
-/nul

@@ -68,6 +68,12 @@ class Config:
         self.deepseek_api_key = (
             "test_deepseek_api_key" if is_test else get_required_env("DEEPSEEK_API_KEY")
         )
+        self.github_api_key = (
+            "test_github_api_key" if is_test else get_required_env("GITHUB_API_KEY")
+        )
+        self.github_repo_name = (
+            "test/test-repo" if is_test else get_required_env("GITHUB_REPO_NAME")
+        )
         self.ip_address = "127.0.0.1"
 
     def is_test(self):

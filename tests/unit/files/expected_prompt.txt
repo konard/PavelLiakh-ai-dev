@@ -1,0 +1,13 @@
+Role: Object under test
+
+Task: Complete task
+
+Instructions:
+-Follow these instructions
+-Follow those instructions
+
+Context:
+-Additional data 1
+-Additional data 2
+
+Output: Expected output

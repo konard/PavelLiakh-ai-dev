@@ -10,16 +10,13 @@ from dataclasses import asdict
 log = get_logger(__name__)
 
 
-class MongoStorage:
+class JsonStorage:
     storage_path = config.storage_path
 
     def __init__(self):
         log.info(f"Storage path: {Path(self.storage_path).absolute()}")
         self._dbs = {}
-        self.users_db = self.get_db("users")
-        self.bots_db = self.get_db("bots")
-        self.errors_db = self.get_db("errors")
-        self.conversations_db = self.get_db("conversations")
+        self.stories_db = self.get_db("stories")
 
     def get_db(self, collection_name: str) -> TinyDB:
         if collection_name not in self._dbs:

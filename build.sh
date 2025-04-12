@@ -17,7 +17,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-poetry run pytest -s -v --disable-warnings
+poetry run pytest -s -v --disable-warnings --html=report.html
 if [ $? -ne 0 ]; then
     echo "``poetry run pytest`` failed. Exiting."
     exit 1

@@ -1,7 +1,7 @@
 from src.infrastructure.web_server import web_app
 
 from nicegui import ui, app
-from src.ioc import auth_service, log
+from src.ioc import log
 
 
 def init_ui() -> None:

@@ -8,11 +8,13 @@ from src.config import config
 from src.infrastructure.web_server import run_webserver
 
 logger = logging.getLogger(__name__)
-
+from src.ioc import story_workflow
 
 def main() -> NoReturn:
     setup_logging()
     logger.info("Starting application initialization")
+
+    story_workflow.find_updates()
 
     logger.info("Initializing GUI")
     init_ui()

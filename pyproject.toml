@@ -36,6 +36,7 @@ pytest = "8.3.4"
 pytest-cov = "6.0.0"
 black = "^25.1.0"
 pylint = "^3.3.4"
+pytest-html = "^4.1.1"
 
 [tool.poetry.scripts]
 tg-assist = "src.main:main"
@@ -56,4 +57,6 @@ python_files = "*_test.py"
 python_classes = "Test*"
 python_functions = "test_*"
 
-addopts = "--verbose --cov=src --cov-report=term-missing"
+addopts = "--verbose --cov=src --cov-report=term-missing --cov-report html:test_report/htmlcov"
+[pytest]
+addopts = "--verbose --html=test_report/report.html --self-contained-html"

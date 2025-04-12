@@ -1,0 +1,3 @@
+- do not leave dummy comments. Only do python documentation of functions and classes responsibility.
+- do not remove comments that were before, if related piece of code is not changed.
+- do log main business actions

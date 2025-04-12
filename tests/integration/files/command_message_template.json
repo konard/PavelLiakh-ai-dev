@@ -1,0 +1,32 @@
+{
+  "message" : {
+    "channel_chat_created" : false,
+    "delete_chat_photo" : false,
+    "entities" : [ {
+      "length" : 7,
+      "offset" : 0,
+      "type" : "bot_command"
+    } ],
+    "group_chat_created" : false,
+    "supergroup_chat_created" : false,
+    "text" : "/create like a fish",
+    "chat" : {
+      "first_name" : "Mota",
+      "id" : 396229808,
+      "last_name" : "Cota",
+      "type" : "private",
+      "username" : "motacota"
+    },
+    "date" : 1738772945,
+    "message_id" : 135,
+    "from" : {
+      "first_name" : "Mota",
+      "id" : 396229111,
+      "is_bot" : false,
+      "language_code" : "ru",
+      "last_name" : "Cota",
+      "username" : "motacota"
+    }
+  },
+  "update_id" : 620597391
+}

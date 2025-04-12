@@ -1,0 +1,4 @@
+import pandas as pd
+file_path = r"%X_PATH%"
+print("hello from the failing script")
+raise ValueError("This is a failing script")

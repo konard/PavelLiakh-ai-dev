@@ -21,6 +21,7 @@ class StoryService:
         existing_story = self.story_storage.get_story(issue.number)
 
         saved_story = self.story_storage.save_story(story)
+        self.issues_client.update_issue_labels()
         self.log.info(f"Processed {'new' if not existing_story else 'updated'} TODO issue #{issue.number}: {issue.title}")
 
         return saved_story

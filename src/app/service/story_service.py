@@ -13,19 +13,12 @@ class StoryService:
         self.log = log or get_logger(__name__)
 
     def check_for_update(self, issue: GithubIssue) -> Optional[Story]:
-        """Check and process GitHub issue updates"""
         if not any(label.upper() == "TODO" for label in issue.labels):
             self.log.debug(f"Issue #{issue.number} doesn't have TODO label, skipping")
             return None
 
         story = self._convert_github_issue(issue)
-
         existing_story = self.story_storage.get_story(issue.number)
-        if existing_story:
-            # it means story needs to be implemented from the beginning
-            existing_story.state = story.state
-            existing_story.description = story.description
-            story.comments = issue.comments
 
         saved_story = self.story_storage.save_story(story)
         self.log.info(f"Processed {'new' if not existing_story else 'updated'} TODO issue #{issue.number}: {issue.title}")

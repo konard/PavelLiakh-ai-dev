@@ -1,6 +1,8 @@
-from typing import List, Dict
-import requests
+from typing import List, Optional
 from dataclasses import dataclass
+from github import Github
+from github.Repository import Repository
+from github.Issue import Issue
 from src.infrastructure.logger import get_logger
 from src.config import config
 
@@ -13,37 +15,50 @@ class GitHubIssue:
     state: str
     body: str
     labels: List[str]
+    created_at: str
+    updated_at: str
+    url: str
 
 class IssuesClient:
     def __init__(self):
-        self.base_url = "https://api.github.com"
-        self.headers = {
-            "Authorization": f"Bearer {config.github_api_key}",
-            "Accept": "application/vnd.github.v3+json"
-        }
-        self.repo = config.github_repo_name
+        self._github = Github(config.github_api_key)
+        self._repo: Optional[Repository] = None
+
+    @property
+    def repo(self) -> Repository:
+        """Lazy-load the repository"""
+        if self._repo is None:
+            self._repo = self._github.get_repo(config.github_repo_name)
+        return self._repo
 
     def get_issues(self, state: str = "open") -> List[GitHubIssue]:
-        """Fetch issues from GitHub repository"""
-        url = f"{self.base_url}/repos/{self.repo}/issues"
-        params = {"state": state}
-        
+        """Get issues from the repository using PyGithub's built-in methods"""
         try:
-            response = requests.get(url, headers=self.headers, params=params)
-            response.raise_for_status()
-            
-            issues = []
-            for item in response.json():
-                issue = GitHubIssue(
-                    title=item["title"],
-                    number=item["number"],
-                    state=item["state"],
-                    body=item["body"] or "",
-                    labels=[label["name"] for label in item.get("labels", [])]
-                )
-                issues.append(issue)
-            return issues
-            
-        except requests.exceptions.RequestException as e:
-            log.error(f"Failed to fetch GitHub issues: {e}")
+            return [
+                self._convert_github_issue(issue)
+                for issue in self.repo.get_issues(state=state)
+            ]
+        except Exception as e:
+            log.error(f"Failed to get issues: {e}")
             raise
+
+    def get_issue(self, number: int) -> GitHubIssue:
+        """Get a single issue by number"""
+        try:
+            return self._convert_github_issue(self.repo.get_issue(number))
+        except Exception as e:
+            log.error(f"Failed to get issue #{number}: {e}")
+            raise
+
+    def _convert_github_issue(self, issue: Issue) -> GitHubIssue:
+        """Convert PyGithub Issue to our GitHubIssue dataclass"""
+        return GitHubIssue(
+            title=issue.title,
+            number=issue.number,
+            state=issue.state,
+            body=issue.body or "",
+            labels=[label.name for label in issue.labels],
+            created_at=issue.created_at.isoformat(),
+            updated_at=issue.updated_at.isoformat(),
+            url=issue.html_url
+        )

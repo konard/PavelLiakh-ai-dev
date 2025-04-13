@@ -8,10 +8,12 @@ class StoryWorkflow:
     def __init__(self,
                  issues_client: IssuesClient,
                  planner_service: PlannerService,
-                 code_builder: CodeBuilder,):
+                 code_builder: CodeBuilder,
+                 log):
         self.issues_client = issues_client
         self.planner_service = planner_service
         self.code_builder = code_builder
+        self.log = log
 
     # FIXME add a trigger. Must be launched 10 times a minute
     def find_updates(self) -> bool:
@@ -19,11 +21,15 @@ class StoryWorkflow:
         for issue in issues:
             self._check_for_update(issue)
 
-    def build_plan(self, story):
+    def _build_plan(self, story: Story):
         """Convert GitHub issue to story and save it in the DB"""
         commit = self.planner_service.plan(story)
-        plan_path = self.planner_service.get_plan_path(story)
-        self.code_builder.build_code()
+        build_check = self.code_builder.check_commit(commit)
+        if build_check.success is True:
+            self.log.info(f"Build check passed for commit {commit}")
+        else:
+            self.log.error(f"Build check failed for commit {commit}: {build_check.error}")
+            # TODO try to fix the build with help of LLM
         pass
 
     def _check_for_update(self, issue):
@@ -42,17 +48,4 @@ class StoryWorkflow:
             description=issue.body or "",
             comments=[comment.body for comment in issue.get_comments()],
             state=issue.state,
-        )
-
-    def _convert_github_issue(self, issue: Issue) -> GithubIssue:
-        """Convert PyGithub Issue to our GitHubIssue dataclass"""
-        return GithubIssue(
-            title=issue.title,
-            number=issue.number,
-            state=issue.state,
-            body=issue.body or "",
-            labels=[label.name for label in issue.labels],
-            created_at=issue.created_at.isoformat(),
-            updated_at=issue.updated_at.isoformat(),
-            url=issue.html_url
         )

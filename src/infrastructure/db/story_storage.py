@@ -1,0 +1,21 @@
+from typing import Optional
+from tinydb import Query
+from src.app.domain.story import Story
+from src.infrastructure.db.json_storage import JsonStorage
+
+
+class StoryStorage:
+    def __init__(self, storage: JsonStorage, log):
+        self.storage = storage
+        self.log = log
+        self.story_db = self.storage.get_db("story")
+
+    def get_story_by_github_number(self, story_id) -> Optional[Story]:
+        return self.storage._find_entity(
+            db=self.story_db, query=Query().number == story_id, entity_class=Story
+        )
+
+    def save_story(self, story: Story):
+        return self.storage.save_entity(
+            db=self.story_db, query=Query().number == story.number, entity=story, entity_class=Story
+        )

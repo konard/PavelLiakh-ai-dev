@@ -11,7 +11,7 @@ states = [NEW_STATE, PLANNING_STATE, DEVELOPMENT_STATE, DONE_STATE, CANCELLED_ST
 
 @dataclass
 class Story:
-    id: Optional[str] = None  # DB ID
+    _id: Optional[str] = None  # DB ID
     number: Optional[int] = None # Unique external identifier
     name: Optional[str] = None  # Brief title of the issue
     description: Optional[str] = None  # Free-form text description of what need to be done

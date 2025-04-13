@@ -1,5 +1,6 @@
 from src.app.domain.story import Story
 from src.app.service.planner_service import PlannerService
+from src.app.service.story_service import StoryService
 from src.infrastructure.cicd.code_builder import CodeBuilder
 from src.infrastructure.github.issues_client import IssuesClient
 
@@ -10,11 +11,13 @@ class StoryWorkflow:
         issues_client: IssuesClient,
         planner_service: PlannerService,
         code_builder: CodeBuilder,
+        story_service: StoryService,
         log,
     ):
         self.issues_client = issues_client
         self.planner_service = planner_service
         self.code_builder = code_builder
+        self.story_service = story_service
         self.log = log
 
     # FIXME add a trigger. Must be launched 10 times a minute
@@ -35,19 +38,6 @@ class StoryWorkflow:
         pass
 
     def _check_for_update(self, issue):
-        # FIXME implement this
-        # check if issue has label `TODO`
-        # convert github issue to story
-        # check if the issue is already in the DB
-        # if not, add it to the DB. Change label in github with `IN_PROGRESS` and update issue in github
-        # if yes, update the issue in the DB
-        pass
-
-    def _convert_github_issue(self, issue) -> Story:
-        return Story(
-            number=issue.number,
-            name=issue.title,
-            description=issue.body or "",
-            comments=[comment.body for comment in issue.get_comments()],
-            state=issue.state,
-        )
+        story = self.story_service.check_for_update(issue)
+        if story:
+            self._build_plan(story)

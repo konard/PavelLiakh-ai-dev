@@ -1,8 +1,8 @@
-from src.infrastructure.ai.llm_client import LLMClient
+from src.infrastructure.ai.llm_client import LlmClient
 
 
 class PlannerService:
-    def __init__(self, llm_client: LLMClient, log):
+    def __init__(self, llm_client: LlmClient, log):
         self.llm_client = llm_client
         self.log = log
 

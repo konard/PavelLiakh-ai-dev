@@ -1,6 +1,6 @@
 from typing import Optional
 
-from src.app.domain.story import Story
+from src.app.domain.story import Story, NEW_STATE
 from src.infrastructure.github.issues_client import IssuesClient, GithubIssue
 from src.infrastructure.logger import get_logger
 
@@ -27,6 +27,6 @@ class StoryService:
             number=issue.number,
             name=issue.title,
             description=issue.body or "",
-            comments=[comment.body for comment in issue.get_comments()],
-            state=issue.state,
+            comments=issue.comments,
+            state=NEW_STATE,
         )

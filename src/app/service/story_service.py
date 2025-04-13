@@ -1,13 +1,15 @@
 from typing import Optional
 
-from src.app.domain.story import Story, NEW_STATE
+from src.app.domain.story import Story, NEW_STATE, IN_PROGRESS_STATE
 from src.infrastructure.github.issues_client import IssuesClient, GithubIssue
+from src.infrastructure.db.story_storage import StoryStorage
 from src.infrastructure.logger import get_logger
 
 
 class StoryService:
-    def __init__(self, issues_client: IssuesClient, log=None):
+    def __init__(self, issues_client: IssuesClient, story_storage: StoryStorage, log=None):
         self.issues_client = issues_client
+        self.story_storage = story_storage
         self.log = log or get_logger(__name__)
 
     def check_for_update(self, issue: GithubIssue) -> Optional[Story]:
@@ -16,12 +18,23 @@ class StoryService:
             self.log.debug(f"Issue #{issue.number} doesn't have TODO label, skipping")
             return None
 
-        story = self._convert_github_issue(issue)
-        self.log.info(f"Processing new TODO issue #{issue.number}: {issue.title}")
-        # TODO: Add DB check and update logic here
-        # TODO: Update GitHub issue labels to IN_PROGRESS
+        existing_story = self.story_storage.get_story(issue.number)
+        if existing_story and existing_story.state != NEW_STATE:
+            self.log.debug(f"Issue #{issue.number} already processed with state {existing_story.state}")
+            return None
 
-        return story
+        story = self._convert_github_issue(issue)
+        if existing_story:
+            # Update existing story with latest details
+            story.state = IN_PROGRESS_STATE
+            story.comments = issue.comments
+        else:
+            story.state = NEW_STATE
+
+        saved_story = self.story_storage.save_story(story)
+        self.log.info(f"Processed {'new' if not existing_story else 'updated'} TODO issue #{issue.number}: {issue.title}")
+
+        return saved_story
 
     def _convert_github_issue(self, issue: GithubIssue) -> Story:
         return Story(

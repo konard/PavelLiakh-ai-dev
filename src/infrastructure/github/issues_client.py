@@ -30,10 +30,16 @@ class IssuesClient:
 
         return issues
 
-    def update_issue(self, issue: GithubIssue):
-        self._repo: Repository = self._github.get_repo(config.github_repo_name)
-        # TODO it must find the issue by number in github. It must set new label in github
-        pass
+    def update_issue_labels(self, issue_number: int, remove_labels: list[str] = None, add_labels: list[str] = None):
+        """Update labels on a GitHub issue"""
+        repo = self._github.get_repo(config.github_repo_name)
+        issue = repo.get_issue(issue_number)
+        
+        current_labels = {label.name for label in issue.labels}
+        new_labels = current_labels - set(remove_labels or []) | set(add_labels or [])
+        
+        issue.edit(labels=list(new_labels))
+        self.log.info(f"Updated labels for issue #{issue_number}")
 
     def _convert_github_issue(self, issue: Issue) -> GithubIssue:
         return GithubIssue(

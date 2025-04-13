@@ -6,6 +6,7 @@ from src.app.story_workflow import StoryWorkflow
 from src.infrastructure.ai.llm_client import LlmClient
 from src.infrastructure.cicd.code_builder import CodeBuilder
 from src.infrastructure.db.json_storage import JsonStorage
+from src.infrastructure.db.story_storage import StoryStorage
 from src.infrastructure.github.issues_client import IssuesClient
 
 from src.infrastructure.logger import get_logger
@@ -20,7 +21,8 @@ issues_client = IssuesClient(log)
 # services: logic units
 planner_service = PlannerService(llm_client, log)
 code_builder = CodeBuilder()
-story_service = StoryService(issues_client, log)
+story_storage = StoryStorage(storage, log)
+story_service = StoryService(issues_client, story_storage, log)
 
 # high-level workflow structures
 story_workflow = StoryWorkflow(issues_client, planner_service, code_builder, story_service, log)

@@ -1,6 +1,6 @@
 from typing import Optional
 
-from src.app.domain.story import Story, NEW_STATE, IN_PROGRESS_STATE
+from src.app.domain.story import Story, NEW_STATE, DEVELOPMENT_STATE
 from src.infrastructure.github.issues_client import IssuesClient, GithubIssue
 from src.infrastructure.db.story_storage import StoryStorage
 from src.infrastructure.logger import get_logger
@@ -18,18 +18,14 @@ class StoryService:
             self.log.debug(f"Issue #{issue.number} doesn't have TODO label, skipping")
             return None
 
-        existing_story = self.story_storage.get_story(issue.number)
-        if existing_story and existing_story.state != NEW_STATE:
-            self.log.debug(f"Issue #{issue.number} already processed with state {existing_story.state}")
-            return None
-
         story = self._convert_github_issue(issue)
+
+        existing_story = self.story_storage.get_story(issue.number)
         if existing_story:
-            # Update existing story with latest details
-            story.state = IN_PROGRESS_STATE
+            # it means story needs to be implemented from the beginning
+            existing_story.state = story.state
+            existing_story.description = story.description
             story.comments = issue.comments
-        else:
-            story.state = NEW_STATE
 
         saved_story = self.story_storage.save_story(story)
         self.log.info(f"Processed {'new' if not existing_story else 'updated'} TODO issue #{issue.number}: {issue.title}")

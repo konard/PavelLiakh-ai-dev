@@ -25,9 +25,3 @@ class StoryStorage:
             entity_class=Story
         )
 
-    def update_story(self, story: Story) -> Story:
-        """Update an existing story"""
-        existing = self.get_story(story.number)
-        if not existing:
-            raise ValueError(f"Story #{story.number} not found")
-        return self.save_story(story)

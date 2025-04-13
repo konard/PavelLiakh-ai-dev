@@ -5,11 +5,13 @@ from src.infrastructure.github.issues_client import IssuesClient
 
 
 class StoryWorkflow:
-    def __init__(self,
-                 issues_client: IssuesClient,
-                 planner_service: PlannerService,
-                 code_builder: CodeBuilder,
-                 log):
+    def __init__(
+        self,
+        issues_client: IssuesClient,
+        planner_service: PlannerService,
+        code_builder: CodeBuilder,
+        log,
+    ):
         self.issues_client = issues_client
         self.planner_service = planner_service
         self.code_builder = code_builder

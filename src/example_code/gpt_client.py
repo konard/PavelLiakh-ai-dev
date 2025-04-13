@@ -43,9 +43,7 @@ def generate_code(issue_title, issue_body):
         },
     ]
 
-    response = client.chat.completions.create(
-        model=MODEL_NAME, messages=messages, temperature=0.0
-    )
+    response = client.chat.completions.create(model=MODEL_NAME, messages=messages, temperature=0.0)
 
     raw_response = response.choices[0].message.content
     code = extract_code(raw_response)
@@ -78,9 +76,7 @@ def determine_filepath(issue_number, issue_title, issue_body, generated_code):
     if not filepath:
         repo_file_paths = gh.get_repo_file_paths()
         print(repo_file_paths)
-        filepath = ask_model_for_filepath(
-            issue_title, issue_body, generated_code, repo_file_paths
-        )
+        filepath = ask_model_for_filepath(issue_title, issue_body, generated_code, repo_file_paths)
     if not filepath:
         filepath = f"generated/{issue_number}_auto_generated.py"
     return filepath

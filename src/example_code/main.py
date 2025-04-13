@@ -29,9 +29,7 @@ def process_unhandled_issues(storage, git_handler):
         try:
             generated_code = generate_code(issue.title, issue.body)
 
-            filepath = determine_filepath(
-                issue.number, issue.title, issue.body, generated_code
-            )
+            filepath = determine_filepath(issue.number, issue.title, issue.body, generated_code)
 
             pr_url = git_handler.create_branch_commit_pr(
                 issue_number=issue.number,

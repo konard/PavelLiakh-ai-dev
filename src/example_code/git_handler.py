@@ -16,9 +16,7 @@ class GitHandler:
 
     def create_branch(self, new_branch_name):
         base_ref = self.repo.get_git_ref(f"heads/{BASE_BRANCH}")
-        self.repo.create_git_ref(
-            ref=f"refs/heads/{new_branch_name}", sha=base_ref.object.sha
-        )
+        self.repo.create_git_ref(ref=f"refs/heads/{new_branch_name}", sha=base_ref.object.sha)
         print(f"Branch created: {new_branch_name}")
 
     def commit_file(self, branch_name, filepath, code, commit_message):
@@ -42,9 +40,7 @@ class GitHandler:
             print(f"Created new file: {filepath}")
 
     def create_pull_request(self, branch_name, title, body=None):
-        pr = self.repo.create_pull(
-            title=title, body=body or "", head=branch_name, base=BASE_BRANCH
-        )
+        pr = self.repo.create_pull(title=title, body=body or "", head=branch_name, base=BASE_BRANCH)
         print(f"Pull Request created: {pr.html_url}")
         return pr.html_url
 

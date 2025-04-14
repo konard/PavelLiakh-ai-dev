@@ -47,6 +47,8 @@ class StoryWorkflow:
         )
         self.git_repo_client.checkout_branch(repository_context)
         self.git_repo_client.patch_file(repository_context, "plan.md", plan, "Add plan")
+        self.git_repo_client.push_changes(repository_context)
+
         # # commit = self.planner_service.plan(story)
         # build_check = self.code_builder.check_commit(commit)
         # if build_check.success is True:

@@ -27,6 +27,8 @@ story_storage = StoryStorage(storage, log)
 story_service = StoryService(issues_client, story_storage, log)
 
 # high-level workflow structures
-story_workflow = StoryWorkflow(issues_client, planner_service, code_builder, story_service, git_repo_client, log)
+story_workflow = StoryWorkflow(
+    issues_client, planner_service, code_builder, story_service, git_repo_client, log
+)
 
 log.info("Initialized IoC container")

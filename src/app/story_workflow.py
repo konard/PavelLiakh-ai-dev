@@ -40,8 +40,8 @@ class StoryWorkflow:
     def _build_plan(self, story: Story):
         plan = "mocked plan 2"
         repository_context = RepoContext(
-            name = config.github_repo_name,
-            local_path=config.workspace_path/config.github_repo_name,
+            name=config.github_repo_name,
+            local_path=config.workspace_path / config.github_repo_name,
             branch="story_branch",
             token=config.github_api_key,
         )

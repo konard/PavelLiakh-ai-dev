@@ -22,7 +22,6 @@ class StoryWorkflow:
 
     # FIXME add a trigger. Must be launched 10 times a minute
     def find_updates(self) -> None:
-        """Check all open issues for updates and process any new TODO items"""
         issues = self.issues_client.get_opened_issues()
         self.log.info(f"Checking {len(issues)} open issues for updates")
         for issue in issues:

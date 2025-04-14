@@ -19,9 +19,5 @@ class StoryStorage:
     def save_story(self, story: Story) -> Story:
         """Create or update a story"""
         return self.storage.save_entity(
-            db=self.story_db, 
-            query=Query().number == story.number, 
-            entity=story, 
-            entity_class=Story
+            db=self.story_db, query=Query().number == story.number, entity=story, entity_class=Story
         )
-

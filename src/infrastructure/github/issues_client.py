@@ -34,7 +34,7 @@ class IssuesClient:
         """Replace all labels on a GitHub issue with the specified new labels"""
         repo = self._github.get_repo(config.github_repo_name)
         issue = repo.get_issue(issue_number)
-        
+
         issue.edit(labels=new_labels)
         self.log.info(f"Updated labels for issue #{issue_number} to {new_labels}")
 

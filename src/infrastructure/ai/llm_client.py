@@ -57,15 +57,6 @@ class LlmClient:
         temperature: float = None,
         top_p: float = None,
     ) -> Optional[str]:
-        """Generate a response using the configured LLM model or mock if in test environment
-
-        Args:
-            system_prompt: The system message that sets the behavior of the assistant
-            user_prompt: The user's input message
-
-        Returns:
-            The generated response or None if there was an error
-        """
         if config.is_test():
             return mock_llm_response(system_prompt, user_prompt)
 

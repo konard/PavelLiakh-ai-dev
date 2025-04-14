@@ -88,7 +88,6 @@ class GitRepoClient:
         gh_repo = github.get_repo(repo_context.name)
 
         try:
-            # First check for existing PRs from the same head branch
             existing_prs = gh_repo.get_pulls(state='open', base=base)
             for pr in existing_prs:
                 if pr.head.ref == repo_context.branch:

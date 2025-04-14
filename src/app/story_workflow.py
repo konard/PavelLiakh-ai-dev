@@ -38,7 +38,7 @@ class StoryWorkflow:
             self._build_plan(story)
 
     def _build_plan(self, story: Story):
-        plan = "mocked plan"
+        plan = "mocked plan 2"
         repository_context = RepoContext(
             name = config.github_repo_name,
             local_path=config.workspace_path/config.github_repo_name,
@@ -46,6 +46,7 @@ class StoryWorkflow:
             token=config.github_api_key,
         )
         self.git_repo_client.checkout_branch(repository_context)
+        self.git_repo_client.patch_file(repository_context, "plan.md", plan, "Add plan")
         # # commit = self.planner_service.plan(story)
         # build_check = self.code_builder.check_commit(commit)
         # if build_check.success is True:

@@ -23,7 +23,6 @@ code_builder = CodeBuilder(log)
 
 # services: logic units
 planner_service = PlannerService(llm_client, log)
-code_builder = CodeBuilder()
 story_storage = StoryStorage(storage, log)
 story_service = StoryService(issues_client, story_storage, log)
 

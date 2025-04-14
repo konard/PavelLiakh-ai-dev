@@ -12,6 +12,9 @@ class StoryService:
         self.story_storage = story_storage
         self.log = log or get_logger(__name__)
 
+    def get_new_stories(self) -> list[Story]:
+        return self.story_storage.get_stories_by_state(NEW_STATE)
+
     def check_for_update(self, issue: GithubIssue) -> Optional[Story]:
         if not any(label.upper() == "TODO" for label in issue.labels):
             self.log.debug(f"Issue #{issue.number} doesn't have TODO label, skipping")

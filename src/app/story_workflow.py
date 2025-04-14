@@ -27,8 +27,13 @@ class StoryWorkflow:
         for issue in issues:
             self._check_for_update(issue)
 
+    def plan(self):
+        new_stories = self.story_service.get_new_stories()
+        for story in new_stories:
+            self.log.info(f"Planning story {story.name}")
+            self._build_plan(story)
+
     def _build_plan(self, story: Story):
-        """Convert GitHub issue to story and save it in the DB"""
         commit = self.planner_service.plan(story)
         build_check = self.code_builder.check_commit(commit)
         if build_check.success is True:

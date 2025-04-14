@@ -15,7 +15,9 @@ class CodeBuilder:
         self.log = log
 
     def check_commit(self, repository_context: RepoContext) -> BuildResult:
-        self.log.info(f"building code: repo={repository_context.name}, branch={repository_context.branch}")
+        self.log.info(
+            f"building code: repo={repository_context.name}, branch={repository_context.branch}"
+        )
         # FYI
         # repo url = repository_context.auth_repo_url()
         # branch name = repository_context.branch

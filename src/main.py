@@ -10,20 +10,14 @@ from src.infrastructure.web_server import run_webserver
 logger = logging.getLogger(__name__)
 from src.ioc import story_workflow
 
-
 def main() -> NoReturn:
     setup_logging()
     logger.info("Starting application initialization")
 
-    story_workflow.find_updates()
-
-    logger.info("Initializing GUI")
-    init_ui()
-
     logger.info(f"Application version is {config.version}")
-    logger.info("Starting web server")
-    run_webserver()
 
+    story_workflow.find_updates()
+    story_workflow.plan()
 
 if __name__ == "__main__":
     main()

@@ -14,10 +14,11 @@ class PlannerService:
                             for implementing this story. Include steps for implementation, testing, 
                             and deployment. Be specific about files that need to be modified."""
 
-            plan_content = self.llm_client.generate_reasoned_response(
-                system_prompt=system_prompt,
-                user_prompt=f"Story: {story.name}\n\nDescription: {story.description}",
-            )
+            # plan_content = self.llm_client.generate_reasoned_response(
+            #     system_prompt=system_prompt,
+            #     user_prompt=f"Story: {story.name}\n\nDescription: {story.description}",
+            # )
+            plan_content = "Mocked plan"
 
             # Create branch
             branch_name = f"story-{story.number}"

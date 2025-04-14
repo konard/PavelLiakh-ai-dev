@@ -4,6 +4,7 @@ from typing import List
 from dataclasses import dataclass
 from git import Repo as GitRepo, GitCommandError
 from github import Github, GithubException
+import shutil
 
 @dataclass
 class RepoContext:
@@ -26,7 +27,7 @@ class GitRepoClient:
         path = repo_context.local_path
         if not path.exists():
             print(f"Cloning {repo_context.repo_url()} to {path}")
-            git_repo = GitRepo.clone_from(repo_context.repo_url(), path)
+            git_repo = GitRepo.clone_from(repo_context.auth_repo_url(), path)
         else:
             print(f"Using existing repo at {path}")
             git_repo = GitRepo(path)

@@ -22,9 +22,9 @@ class StoryStorage:
             db=self.story_db, query=Query().number == story.number, entity=story, entity_class=Story
         )
 
-    def get_all(self):
-        return self.storage.stories_db.all()
+    def get_all(self) -> list[Story]:
+        return [Story(**user_data) for user_data in self.story_db.all()]
 
     def get_stories_by_state(self, state) -> list[Story]:
         all = self.get_all()
-        return [story for story in all if story.state == state]
+        return [story for story in all if story.state and state == story.state]

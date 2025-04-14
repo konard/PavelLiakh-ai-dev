@@ -52,10 +52,10 @@ class Config:
         self.root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         print(f"Root folder: {self.root_folder}")
 
-        self.workspace = (
+        self.workspace_path = (
             self.get_folder("tests/workspace") if is_test else self.get_folder("workspace")
         )
-        os.makedirs(self.workspace, exist_ok=True)
+        os.makedirs(self.workspace_path, exist_ok=True)
 
         # 2 Dependent variables
         self.storage_path = (

@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from git import Repo as GitRepo, GitCommandError
 from github import Github, GithubException
 import shutil
+from git.exc import InvalidGitRepositoryError, GitCommandError
 
 @dataclass
 class RepoContext:
@@ -25,17 +26,33 @@ class GitRepoClient:
 
     def checkout_branch(self, repo_context: RepoContext):
         path = repo_context.local_path
-        if not path.exists():
-            print(f"Cloning {repo_context.repo_url()} to {path}")
-            git_repo = GitRepo.clone_from(repo_context.auth_repo_url(), path)
+        repo_url = repo_context.auth_repo_url()
+        if path.exists():
+            try:
+                git_repo = GitRepo(path)
+            except InvalidGitRepositoryError:
+                print(f"Path {path} is not a git repo. Deleting and recloning...")
+                shutil.rmtree(path)
+                git_repo = GitRepo.clone_from(repo_url, path)
         else:
-            print(f"Using existing repo at {path}")
-            git_repo = GitRepo(path)
+            print(f"Cloning {repo_url} to {path}")
+            git_repo = GitRepo.clone_from(repo_url, path)
 
         git_repo.remote().fetch()
         try:
             git_repo.git.checkout(repo_context.branch)
-            git_repo.remote().pull()
+            print(f"Checked out existing branch {repo_context.branch}")
+        except GitCommandError:
+            print(f"Branch {repo_context.branch} does not exist locally. Trying to create from origin.")
+            remote_branches = [ref.name.split('/')[-1] for ref in git_repo.remote().refs]
+            if repo_context.branch in remote_branches:
+                git_repo.git.checkout('-b', repo_context.branch, f'origin/{repo_context.branch}')
+            else:
+                # Create from main if the remote branch doesn't exist
+                default_branch = 'main'  # or detect dynamically
+                git_repo.git.checkout('-b', repo_context.branch, f'origin/{default_branch}')
+                print(f"Created new branch {repo_context.branch} from {default_branch}")
+                git_repo.remote().pull()
         except GitCommandError:
             print(f"Branch {repo_context.branch} not found locally. Checking out from origin.")
             git_repo.git.checkout('-b', repo_context.branch, f'origin/{repo_context.branch}')

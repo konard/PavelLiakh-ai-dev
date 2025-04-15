@@ -16,7 +16,6 @@ class JsonStorage:
     def __init__(self):
         log.info(f"Storage path: {Path(self.storage_path).absolute()}")
         self._dbs = {}
-        self.stories_db = self.get_db("stories")
 
     def get_db(self, collection_name: str) -> TinyDB:
         if collection_name not in self._dbs:

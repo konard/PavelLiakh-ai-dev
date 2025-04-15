@@ -15,7 +15,9 @@ AI-powered developer.
 
 ### Environment Variables
 - `OPENAI_API_KEY` - OpenAI API key. https://platform.openai.com/api-keys
-- `DEEPSEEK_API_KEY` - Deepseek API key. https://platform.deepseek.com/api-keys
+- `DEEPSEEK_API_KEY` - Deepseek API key. https://platform.deepseek.com/api-keys. For now can be mocked with any value as deepseek not yet used.
+- `GITHUB_API_KEY` - Do create here: https://github.com/settings/tokens
+- `GITHUB_REPO_NAME` - Repository for testing github name. E.g `PavelLiakh/rut`
 
 ### Build
 1. Run cli:

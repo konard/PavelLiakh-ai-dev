@@ -52,10 +52,10 @@ class Config:
         self.root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         print(f"Root folder: {self.root_folder}")
 
-        self.workspace = (
+        self.workspace_path = (
             self.get_folder("tests/workspace") if is_test else self.get_folder("workspace")
         )
-        os.makedirs(self.workspace, exist_ok=True)
+        os.makedirs(self.workspace_path, exist_ok=True)
 
         # 2 Dependent variables
         self.storage_path = (
@@ -67,6 +67,12 @@ class Config:
         )
         self.deepseek_api_key = (
             "test_deepseek_api_key" if is_test else get_required_env("DEEPSEEK_API_KEY")
+        )
+        self.github_api_key = (
+            "test_github_api_key" if is_test else get_required_env("GITHUB_API_KEY")
+        )
+        self.github_repo_name = (
+            "test/test-repo" if is_test else get_required_env("GITHUB_REPO_NAME")
         )
         self.ip_address = "127.0.0.1"
 

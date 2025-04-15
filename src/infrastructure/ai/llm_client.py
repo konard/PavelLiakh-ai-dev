@@ -14,7 +14,7 @@ o1_mini = "o1-mini"
 o3_mini = "o3-mini"
 
 
-class LLMClient:
+class LlmClient:
     def __init__(self, log, model: str = "gpt-4o-mini"):
         self.log = log
         self.model = model
@@ -57,15 +57,6 @@ class LLMClient:
         temperature: float = None,
         top_p: float = None,
     ) -> Optional[str]:
-        """Generate a response using the configured LLM model or mock if in test environment
-
-        Args:
-            system_prompt: The system message that sets the behavior of the assistant
-            user_prompt: The user's input message
-
-        Returns:
-            The generated response or None if there was an error
-        """
         if config.is_test():
             return mock_llm_response(system_prompt, user_prompt)
 
@@ -93,7 +84,7 @@ class LLMClient:
 if __name__ == "__main__":
     import logging
 
-    client = LLMClient(logging.getLogger("testllmclient"))
+    client = LlmClient(logging.getLogger("testllmclient"))
     # response = client.generate_response("Hello", "How are you?")
     # print(response)
     response = client.generate_reasoned_response("What is the capital of France?")

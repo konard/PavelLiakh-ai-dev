@@ -4,7 +4,7 @@ tests/test-storage
 file_storage
 style.css
 bash.exe.stackdump
-
+workspace
 
 ## MacOS specific files
 .DS_Store

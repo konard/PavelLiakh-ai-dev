@@ -16,8 +16,7 @@ class DevelopmentService:
         self.code_builder = code_builder
 
     def implement(self, story: Story):
-        plan = self.planner_service.plan(story)
-        story.plan = plan.plan
+        self.planner_service.plan(story)
         repository_context = self._get_repo_context(story)
         self._add_plan_to_repo(story, repository_context)
         self.code_builder.check_commit(repository_context)

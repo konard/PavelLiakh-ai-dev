@@ -21,10 +21,10 @@ llm_client = LlmClient(log=log)
 issues_client = IssuesClient(log)
 git_repo_client = GitRepoClient(log)
 code_builder = CodeBuilder(log)
+story_storage = StoryStorage(storage, log)
 
 # services: logic units
-planner_service = PlannerService(llm_client, log)
-story_storage = StoryStorage(storage, log)
+planner_service = PlannerService(llm_client, story_storage, log)
 story_service = StoryService(issues_client, story_storage, log)
 development_service = DevelopmentService(
     llm_client, git_repo_client, code_builder, planner_service, log

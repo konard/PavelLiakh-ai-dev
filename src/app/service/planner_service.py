@@ -3,6 +3,7 @@ from tkinter.scrolledtext import example
 
 from pydantic import BaseModel, Field
 
+from src.app.domain.story import PLANNING_STATE
 from src.infrastructure.ai.llm_client import LlmClient
 from src.infrastructure.ai.prompt import Prompt
 
@@ -12,11 +13,15 @@ class Plan(BaseModel):
 
 
 class PlannerService:
-    def __init__(self, llm_client: LlmClient, log):
+    def __init__(self, llm_client: LlmClient, story_storage, log):
         self.llm_client = llm_client
+        self.story_storage = story_storage
         self.log = log
 
+
     def plan(self, story) -> Plan:
+        story.state = PLANNING_STATE
+
         system_prompt = Prompt(
             role="Technical planner",
             task="Create a detailed development plan for implementing user story.",
@@ -47,5 +52,8 @@ class PlannerService:
         self.log.info(f"Response from planner: {response}")
         plan = Plan(**json.loads(response))
         self.log.info(f"Generated plan for story {story.number}: {plan.plan}")
+
+        story.plan = plan.plan
+        self.story_storage.save_story(story)
 
         return plan

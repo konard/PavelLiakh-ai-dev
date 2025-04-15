@@ -66,7 +66,7 @@ class RepositoryClient:
         repo.index.commit(commit_message)
 
     def push_changes(self, repo_context: RepoContext):
-        repo = GitRepo(repo_context.name)
+        repo = GitRepo(self._get_local_path(repo_context.name))
         origin = repo.remote()
         origin.set_url(self._get_repo_auth(repo_context.name))
         origin.push(refspec=f"{repo_context.branch}:{repo_context.branch}")

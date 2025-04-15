@@ -8,7 +8,7 @@ from src.config import config
 from src.infrastructure.web_server import run_webserver
 
 logger = logging.getLogger(__name__)
-from src.ioc import story_workflow
+from src.ioc import ai_dev_workflow
 
 
 def main() -> NoReturn:
@@ -17,8 +17,7 @@ def main() -> NoReturn:
 
     logger.info(f"Application version is {config.version}")
 
-    story_workflow.find_updates()
-    story_workflow.plan()
+    ai_dev_workflow.run_ai_dev_workflow()
 
 
 if __name__ == "__main__":

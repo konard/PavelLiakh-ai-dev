@@ -3,7 +3,7 @@
 from src.app.service.development_service import DevelopmentService
 from src.app.service.planner_service import PlannerService
 from src.app.service.story_service import StoryService
-from src.app.story_workflow import StoryWorkflow
+from src.app.ai_dev_workflow import AiDevWorkflow
 from src.infrastructure.ai.llm_client import LlmClient
 from src.infrastructure.cicd.code_builder import CodeBuilder
 from src.infrastructure.db.json_storage import JsonStorage
@@ -31,6 +31,6 @@ development_service = DevelopmentService(
 )
 
 # high-level workflow structures
-story_workflow = StoryWorkflow(issues_client, story_service, development_service, log)
+ai_dev_workflow = AiDevWorkflow(issues_client, story_service, development_service, log)
 
 log.info("Initialized IoC container")

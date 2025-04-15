@@ -21,11 +21,11 @@ class StoryService:
         return self.story_storage.get_stories_by_state(NEW_STATE)
 
     def check_for_update(self, issue: GithubIssue) -> Optional[Story]:
-        if not any(label.upper() == TODO_LABEL for label in issue.labels):
-            self.log.debug(f"Issue #{issue.number} doesn't have TODO label, skipping")
-            return None
-        else:
+        is_new = any(label.upper() == TODO_LABEL for label in issue.labels)
+        if is_new:
             self.log.info(f"Issue #{issue.number} has TODO label, processing")
+        else:
+            return None
 
         story = self._convert_github_issue(issue)
         existing_story = self.story_storage.get_story(issue.number)

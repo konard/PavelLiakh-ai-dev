@@ -3,7 +3,7 @@ from src.app.service.story_service import StoryService
 from src.infrastructure.github.issues_client import IssuesClient
 
 
-class StoryWorkflow:
+class AiDevWorkflow:
     def __init__(
         self,
         issues_client: IssuesClient,
@@ -16,15 +16,17 @@ class StoryWorkflow:
         self.story_service = story_service
         self.log = log
 
-    def find_updates(self) -> None:
+    def run_ai_dev_workflow(self) -> None:
+        self._find_updates()
+        self._plan()
+
+    def _find_updates(self) -> None:
         issues = self.issues_client.get_opened_issues()
         self.log.info(f"Checking {len(issues)} open issues for updates")
         for issue in issues:
             self.story_service.check_for_update(issue)
 
-        self.plan()
-
-    def plan(self):
+    def _plan(self):
         new_stories = self.story_service.get_new_stories()
         if new_stories:
             self.log.info(f"Found {len(new_stories)} new stories to plan")

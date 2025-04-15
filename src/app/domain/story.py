@@ -18,3 +18,4 @@ class Story:
     description: Optional[str] = None  # Free-form text description of what need to be done
     comments: Optional[list[str]] = None  # Comments
     state: Optional[str] = None  # State of the issue. See `states` for possible values
+    plan: Optional[list[str]] = None  # Steps to implement story

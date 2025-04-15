@@ -16,6 +16,7 @@ class RepoContext:
     name: str
     branch: str
 
+
 class RepositoryClient:
     def __init__(self, log):
         self.log = log
@@ -51,7 +52,6 @@ class RepositoryClient:
                 git_repo.git.checkout("-b", repo_context.branch, f"origin/{default_branch}")
                 print(f"Created new branch {repo_context.branch} from {default_branch}")
                 git_repo.remote().pull()
-
 
     def patch_file(
         self, repo_context: RepoContext, filename: str, new_content: str, commit_message: str

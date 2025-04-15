@@ -40,15 +40,10 @@ class DevelopmentService:
         if check_result.success:
             self.log.info(f"Code check passed for story {story.number}.")
         else:
-            self.log.error(
-                f"Code check failed for story {story.number}: {check_result.error}"
-            )
+            self.log.error(f"Code check failed for story {story.number}: {check_result.error}")
 
     def _get_repo_context(self, story: Story) -> RepoContext:
-        return RepoContext(
-            name=config.github_repo_name,
-            branch=f"{BRANCH_PREFIX}{story.number}"
-        )
+        return RepoContext(name=config.github_repo_name, branch=f"{BRANCH_PREFIX}{story.number}")
 
     def _add_plan_to_repo(self, story: Story, repository_context: RepoContext) -> None:
         plan_as_string = "\n".join(story.plan)

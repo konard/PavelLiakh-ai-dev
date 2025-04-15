@@ -23,7 +23,7 @@ class RepoContext:
         return f"https://{self.token}@github.com/{self.name}.git"
 
 
-class GitRepoClient:
+class RepositoryClient:
     def __init__(self, log):
         self.log = log
 

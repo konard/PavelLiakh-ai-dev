@@ -8,7 +8,7 @@ from src.infrastructure.ai.llm_client import LlmClient
 from src.infrastructure.cicd.code_builder import CodeBuilder
 from src.infrastructure.db.json_storage import JsonStorage
 from src.infrastructure.db.story_storage import StoryStorage
-from src.infrastructure.github.git_repo_client import GitRepoClient
+from src.infrastructure.github.repository_client import RepositoryClient
 from src.infrastructure.github.issues_client import IssuesClient
 
 from src.infrastructure.logger import get_logger
@@ -19,7 +19,7 @@ log.info("Initializing IoC container")
 storage = JsonStorage()
 llm_client = LlmClient(log=log)
 issues_client = IssuesClient(log)
-git_repo_client = GitRepoClient(log)
+git_repo_client = RepositoryClient(log)
 code_builder = CodeBuilder(log)
 story_storage = StoryStorage(storage, log)
 

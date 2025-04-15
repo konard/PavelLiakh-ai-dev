@@ -6,7 +6,7 @@ from src.config import config
 from src.infrastructure.ai.llm_client import LlmClient
 from src.infrastructure.cicd.code_builder import CodeBuilder
 from src.infrastructure.db.story_storage import StoryStorage
-from src.infrastructure.github.git_repo_client import RepoContext, GitRepoClient
+from src.infrastructure.github.repository_client import RepoContext, RepositoryClient
 
 BRANCH_PREFIX = "ai-dev_story-"
 
@@ -15,7 +15,7 @@ class DevelopmentService:
     def __init__(
         self,
         llm_client: LlmClient,
-        git_repo_client: GitRepoClient,
+        git_repo_client: RepositoryClient,
         code_builder: CodeBuilder,
         planner_service: PlannerService,
         story_storage: StoryStorage,

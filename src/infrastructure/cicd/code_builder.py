@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from src.infrastructure.github.git_repo_client import RepoContext
+from src.infrastructure.github.repository_client import RepoContext
 
 
 @dataclass

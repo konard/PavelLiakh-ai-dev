@@ -24,7 +24,6 @@ class StoryWorkflow:
         self.git_repo_client = git_repo_client
         self.log = log
 
-    # FIXME add a trigger. Must be launched 10 times a minute
     def find_updates(self) -> None:
         issues = self.issues_client.get_opened_issues()
         self.log.info(f"Checking {len(issues)} open issues for updates")

@@ -34,9 +34,9 @@ class StoryWorkflow:
         new_stories = self.story_service.get_new_stories()
         for story in new_stories:
             self.log.info(f"Planning story {story.name}")
-            self._build_plan(story)
+            self._add_plan_to_repo(story)
 
-    def _build_plan(self, story: Story):
+    def _add_plan_to_repo(self, story: Story):
         plan = self.planner_service.plan(story)
         repository_context = RepoContext(
             name=config.github_repo_name,
@@ -50,16 +50,8 @@ class StoryWorkflow:
         self.git_repo_client.push_changes(repository_context)
         self.code_builder.check_commit(repository_context)
         self.git_repo_client.open_pr(repository_context)
-        # # commit = self.planner_service.plan(story)
-        # build_check = self.code_builder.check_commit(commit)
-        # if build_check.success is True:
-        #     self.log.info(f"Build check passed for commit {commit}")
-        # else:
-        #     self.log.error(f"Build check failed for commit {commit}: {build_check.error}")
-        #     # TODO try to fix the build with help of LLM
-        # pass
 
     def _check_for_update(self, issue):
         story = self.story_service.check_for_update(issue)
         if story:
-            self._build_plan(story)
+            self._add_plan_to_repo(story)

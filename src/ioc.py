@@ -1,4 +1,5 @@
 """This is the Inversion of Control / Dependency Injection container implementation"""
+
 from src.app.service.development_service import DevelopmentService
 from src.app.service.planner_service import PlannerService
 from src.app.service.story_service import StoryService
@@ -25,11 +26,11 @@ code_builder = CodeBuilder(log)
 planner_service = PlannerService(llm_client, log)
 story_storage = StoryStorage(storage, log)
 story_service = StoryService(issues_client, story_storage, log)
-development_service = DevelopmentService(llm_client, git_repo_client, code_builder, planner_service, log)
+development_service = DevelopmentService(
+    llm_client, git_repo_client, code_builder, planner_service, log
+)
 
 # high-level workflow structures
-story_workflow = StoryWorkflow(
-    issues_client, story_service, development_service, log
-)
+story_workflow = StoryWorkflow(issues_client, story_service, development_service, log)
 
 log.info("Initialized IoC container")

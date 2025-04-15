@@ -1,9 +1,11 @@
 """This service is used to manage the development of the application."""
+
 from src.app.domain.story import Story
 from src.config import config
 from src.infrastructure.github.git_repo_client import RepoContext
 
 BRANCH_PREFIX = "ai-dev_story-"
+
 
 class DevelopmentService:
     def __init__(self, llm_client, git_repo_client, code_builder, planner_service, log):

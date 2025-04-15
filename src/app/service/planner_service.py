@@ -50,9 +50,9 @@ class PlannerService:
 
         self.log.info(f"Response from planner: {response}")
         plan = Plan(**json.loads(response))
-        self.log.info(f"Generated plan for story {story.number}: {plan.plan}")
+        self.log.info(f"Generated plan for story #{story.number}: {plan.plan}")
 
-        story._plan = plan.plan
+        story.plan = plan.plan
         self.story_storage.save_story(story)
 
         return plan

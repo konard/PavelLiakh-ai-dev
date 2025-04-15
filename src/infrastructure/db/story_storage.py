@@ -8,16 +8,14 @@ class StoryStorage:
     def __init__(self, storage: JsonStorage, log):
         self.storage = storage
         self.log = log
-        self.story_db = self.storage.get_db("story")
+        self.story_db = self.storage.get_db("stories")
 
     def get_story(self, story_number: int) -> Optional[Story]:
-        """Get story by GitHub issue number"""
         return self.storage._find_entity(
             db=self.story_db, query=Query().number == story_number, entity_class=Story
         )
 
     def save_story(self, story: Story) -> Story:
-        """Create or update a story"""
         return self.storage.save_entity(
             db=self.story_db, query=Query().number == story.number, entity=story, entity_class=Story
         )

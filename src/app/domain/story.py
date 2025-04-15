@@ -19,3 +19,4 @@ class Story:
     comments: Optional[list[str]] = None  # Comments
     state: Optional[str] = None  # State of the issue. See `states` for possible values
     plan: Optional[list[str]] = None  # Steps to implement story
+    pr_link: Optional[str] = None  # Link to the pull request

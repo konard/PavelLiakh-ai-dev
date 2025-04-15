@@ -50,4 +50,8 @@ class DevelopmentService:
         self.git_repo_client.checkout_branch(repository_context)
         self.git_repo_client.patch_file(repository_context, "plan.md", plan_as_string, "Add plan")
         self.git_repo_client.push_changes(repository_context)
-        self.git_repo_client.open_pr(repository_context)
+
+        pr_link = self.git_repo_client.open_pr(repository_context)
+        self.log.info(f"Pull request created: {pr_link}")
+        story.pr_link = pr_link
+        self.story_storage.save_story(story)

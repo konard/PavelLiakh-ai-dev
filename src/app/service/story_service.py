@@ -24,6 +24,8 @@ class StoryService:
         if not any(label.upper() == TODO_LABEL for label in issue.labels):
             self.log.debug(f"Issue #{issue.number} doesn't have TODO label, skipping")
             return None
+        else:
+            self.log.info(f"Issue #{issue.number} has TODO label, processing")
 
         story = self._convert_github_issue(issue)
         existing_story = self.story_storage.get_story(issue.number)
@@ -33,7 +35,7 @@ class StoryService:
             issue_number=issue.number, new_labels=[IN_PROGRESS_LABEL]
         )
         self.log.info(
-            f"Processed {'new' if not existing_story else 'updated'} TODO issue #{issue.number}: {issue.title}"
+            f"Processed {'new' if not existing_story else 'updated'} issue #{issue.number}: {issue.title}"
         )
 
         return saved_story

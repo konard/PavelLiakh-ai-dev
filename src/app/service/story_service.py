@@ -1,7 +1,7 @@
 from typing import Optional
 
 from src.app.domain.story import Story, NEW_STATE, DEVELOPMENT_STATE
-from src.infrastructure.github.issues_client import IssuesClient, GithubIssue
+from src.infrastructure.github.issues_client import IssuesClient, GithubIssue, IN_PROGRESS_LABEL, TODO_LABEL
 from src.infrastructure.db.story_storage import StoryStorage
 from src.infrastructure.logger import get_logger
 
@@ -16,7 +16,7 @@ class StoryService:
         return self.story_storage.get_stories_by_state(NEW_STATE)
 
     def check_for_update(self, issue: GithubIssue) -> Optional[Story]:
-        if not any(label.upper() == "TODO" for label in issue.labels):
+        if not any(label.upper() == TODO_LABEL for label in issue.labels):
             self.log.debug(f"Issue #{issue.number} doesn't have TODO label, skipping")
             return None
 
@@ -25,7 +25,7 @@ class StoryService:
 
         saved_story = self.story_storage.save_story(story)
         self.issues_client.update_issue_labels(
-            issue_number=issue.number, new_labels=["IN_PROGRESS"]
+            issue_number=issue.number, new_labels=[IN_PROGRESS_LABEL]
         )
         self.log.info(
             f"Processed {'new' if not existing_story else 'updated'} TODO issue #{issue.number}: {issue.title}"

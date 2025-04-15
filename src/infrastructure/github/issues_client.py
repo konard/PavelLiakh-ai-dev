@@ -15,6 +15,8 @@ class GithubIssue:
     labels: Optional[list[str]] = None
     comments: Optional[list[str]] = None
 
+TODO_LABEL = "TODO"
+IN_PROGRESS_LABEL = "IN_PROGRESS"
 
 class IssuesClient:
     def __init__(self, log):
@@ -31,7 +33,6 @@ class IssuesClient:
         return issues
 
     def update_issue_labels(self, issue_number: int, new_labels: list[str]):
-        """Replace all labels on a GitHub issue with the specified new labels"""
         repo = self._github.get_repo(config.github_repo_name)
         issue = repo.get_issue(issue_number)
 

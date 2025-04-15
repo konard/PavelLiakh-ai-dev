@@ -41,15 +41,13 @@ class DevelopmentService:
             self.log.info(f"Code check passed for story {story.number}.")
         else:
             self.log.error(
-                f"Code check failed for story {story.number}: {check_result.error_message}"
+                f"Code check failed for story {story.number}: {check_result.error}"
             )
 
     def _get_repo_context(self, story: Story) -> RepoContext:
         return RepoContext(
             name=config.github_repo_name,
-            local_path=config.workspace_path / config.github_repo_name,
-            branch=f"{BRANCH_PREFIX}{story.number}",
-            token=config.github_api_key,
+            branch=f"{BRANCH_PREFIX}{story.number}"
         )
 
     def _add_plan_to_repo(self, story: Story, repository_context: RepoContext) -> None:

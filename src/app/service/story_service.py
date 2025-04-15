@@ -1,7 +1,12 @@
 from typing import Optional
 
 from src.app.domain.story import Story, NEW_STATE, DEVELOPMENT_STATE
-from src.infrastructure.github.issues_client import IssuesClient, GithubIssue, IN_PROGRESS_LABEL, TODO_LABEL
+from src.infrastructure.github.issues_client import (
+    IssuesClient,
+    GithubIssue,
+    IN_PROGRESS_LABEL,
+    TODO_LABEL,
+)
 from src.infrastructure.db.story_storage import StoryStorage
 from src.infrastructure.logger import get_logger
 

@@ -15,8 +15,10 @@ class GithubIssue:
     labels: Optional[list[str]] = None
     comments: Optional[list[str]] = None
 
+
 TODO_LABEL = "TODO"
 IN_PROGRESS_LABEL = "IN_PROGRESS"
+
 
 class IssuesClient:
     def __init__(self, log):
@@ -25,7 +27,6 @@ class IssuesClient:
 
     def get_opened_issues(self) -> list[GithubIssue]:
         self._repo: Repository = self._github.get_repo(config.github_repo_name)
-        # FIXME assuming there is one page of issues
         issues_page = self._repo.get_issues()
         issues = issues_page.get_page(0)
         issues = [self._convert_github_issue(issue) for issue in issues]

@@ -6,10 +6,9 @@ from pydantic import BaseModel, Field
 
 from src.infrastructure.ai.llm_client import LlmClient
 
+
 class Plan(BaseModel):
-    plan: list[str] = Field(
-        description="Steps to implement story."
-    )
+    plan: list[str] = Field(description="Steps to implement story.")
 
 
 class PlannerService:

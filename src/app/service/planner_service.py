@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 from src.app.domain.story import PLANNING_STATE
 from src.infrastructure.ai.llm_client import LlmClient
 from src.infrastructure.ai.prompt import Prompt
+from src.infrastructure.db.story_storage import StoryStorage
 
 
 class Plan(BaseModel):
@@ -13,11 +14,10 @@ class Plan(BaseModel):
 
 
 class PlannerService:
-    def __init__(self, llm_client: LlmClient, story_storage, log):
+    def __init__(self, llm_client: LlmClient, story_storage: StoryStorage, log):
         self.llm_client = llm_client
         self.story_storage = story_storage
         self.log = log
-
 
     def plan(self, story) -> Plan:
         story.state = PLANNING_STATE
@@ -27,7 +27,7 @@ class PlannerService:
             task="Create a detailed development plan for implementing user story.",
             context=[
                 "Do only what was asked."
-                "FYI all the CI/CD steps will be done by the outside of this conversation, so you must not mention them."
+                "FYI all the CI/CD steps will be done outside of this conversation, so you must not mention them."
             ],
             instructions=[
                 "Be specific about files that need to be modified."

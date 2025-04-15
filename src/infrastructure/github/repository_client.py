@@ -22,7 +22,7 @@ class RepositoryClient:
         self.log = log
 
     def checkout_branch(self, repo_context: RepoContext):
-        path = self._get_local_path(repo_context)
+        path = self._get_local_path(repo_context.name)
         repo_url = self._get_repo_auth(repo_context.name)
         if path.exists():
             try:
@@ -66,9 +66,9 @@ class RepositoryClient:
         repo.index.commit(commit_message)
 
     def push_changes(self, repo_context: RepoContext):
-        repo = GitRepo(self._get_local_path(repo_context.name))
+        repo = GitRepo(repo_context.name)
         origin = repo.remote()
-        origin.set_url(self._get_repo_auth(repo_context))
+        origin.set_url(self._get_repo_auth(repo_context.name))
         origin.push(refspec=f"{repo_context.branch}:{repo_context.branch}")
 
     def open_pr(
@@ -100,4 +100,4 @@ class RepositoryClient:
         return f"https://{config.github_api_key}@github.com/{repo_name}.git"
 
     def _get_local_path(self, repo_name):
-        return config.workspace_path / config.github_repo_name
+        return config.workspace_path / repo_name

@@ -29,7 +29,13 @@ planner_service = PlannerService(llm_client, story_storage, log)
 code_request_service = CodeRequestService(llm_client, story_storage, log)
 story_service = StoryService(issues_client, story_storage, log)
 development_service = DevelopmentService(
-    llm_client, git_repo_client, code_builder, planner_service, code_request_service, story_storage, log
+    llm_client,
+    git_repo_client,
+    code_builder,
+    planner_service,
+    code_request_service,
+    story_storage,
+    log,
 )
 
 # high-level workflow structures

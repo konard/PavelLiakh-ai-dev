@@ -58,6 +58,7 @@ class RepositoryClient:
     ):
         local_path = self._get_local_path(repo_context.name)
         file_path = local_path / filename
+        file_path.parent.mkdir(parents=True, exist_ok=True)
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(new_content)
 

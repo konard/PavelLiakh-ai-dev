@@ -55,7 +55,9 @@ class DevelopmentService:
         plan_as_string = "\n".join(story.plan)
         plan_filename = f"generated_plans/issue_{story.number}_plan.md"
         self.git_repo_client.checkout_branch(repository_context)
-        self.git_repo_client.patch_file(repository_context, plan_filename, plan_as_string, f"Add plan for story {story.number}")
+        self.git_repo_client.patch_file(
+            repository_context, plan_filename, plan_as_string, f"Add plan for story {story.number}"
+        )
         self.git_repo_client.push_changes(repository_context)
 
     def _add_generated_code_to_repo(self, story: Story, repository_context: RepoContext) -> None:
@@ -66,7 +68,7 @@ class DevelopmentService:
                 repository_context,
                 filename,
                 content,
-                commit_message=f"Add generated file {filename} for story {story.number}"
+                commit_message=f"Add generated file {filename} for story {story.number}",
             )
 
         self.git_repo_client.push_changes(repository_context)

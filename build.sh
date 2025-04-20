@@ -32,7 +32,7 @@ fi
 
 # run static code analysis, excluding the .venv directory
 echo "================Running static code analysis"
-poetry run pylint  --rcfile=cicd/.pylintrc ./ --ignore=".venv" --disable=all --enable=F
+poetry run pylint  --rcfile=tools/.pylintrc ./ --ignore=".venv" --disable=all --enable=F
 if [ $? -ne 0 ]; then
     echo "``Linter`` failed. Exiting."
     exit 1

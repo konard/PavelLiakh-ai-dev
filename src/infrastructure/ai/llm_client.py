@@ -6,8 +6,10 @@ from openai import OpenAI
 
 from src.config import config
 from typing import Optional
+from instructor import patch, Mode
 
 client = OpenAI()
+client = patch(client, mode=Mode.JSON)
 
 gpt_4o_mini = "gpt-4o-mini"
 o1_mini = "o1-mini"
@@ -66,18 +68,18 @@ class LlmClient:
         ]
 
         if output_format:
-            response = client.beta.chat.completions.parse(
-                model=self.model, messages=messages, temperature=0.0, response_format=output_format
+            response = client.chat.completions.create(
+                model=self.model, messages=messages, temperature=0.0, response_model=output_format
             )
+            self.log.info(f"[Structured] LLM request: {messages}\nLLM response: {response}")
+            return response  # Already parsed Pydantic model
         else:
-            response = client.beta.chat.completions.parse(
+            response = client.chat.completions.create(
                 model=self.model, messages=messages, temperature=0.0
             )
-
-        result = response.choices[0].message.content
-
-        self.log.info(f"LLM request: {messages}\nLLM response: {result}")
-        return result
+            result = response.choices[0].message.content
+            self.log.info(f"[Raw] LLM request: {messages}\nLLM response: {result}")
+            return result
 
 
 # self-test

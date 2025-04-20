@@ -2,9 +2,10 @@
 
 from src.app.domain.story import Story, DEVELOPMENT_STATE
 from src.app.service.planner_service import PlannerService
+from src.app.service.code_request_service import CodeRequestService
 from src.config import config
 from src.infrastructure.ai.llm_client import LlmClient
-from src.infrastructure.cicd.code_builder import CodeBuilder
+from src.infrastructure.ci.code_builder import CodeBuilder
 from src.infrastructure.db.story_storage import StoryStorage
 from src.infrastructure.github.repository_client import RepoContext, RepositoryClient
 
@@ -18,6 +19,7 @@ class DevelopmentService:
         git_repo_client: RepositoryClient,
         code_builder: CodeBuilder,
         planner_service: PlannerService,
+        code_request_service: CodeRequestService,
         story_storage: StoryStorage,
         log,
     ):
@@ -25,11 +27,13 @@ class DevelopmentService:
         self.log = log
         self.git_repo_client = git_repo_client
         self.planner_service = planner_service
+        self.code_request_service = code_request_service
         self.code_builder = code_builder
         self.story_storage = story_storage
 
     def implement(self, story: Story):
         self.planner_service.plan(story)
+        self.code_request_service.implement(story)
         story.state = DEVELOPMENT_STATE
         self.story_storage.save_story(story)
 

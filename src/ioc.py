@@ -2,10 +2,11 @@
 
 from src.app.service.development_service import DevelopmentService
 from src.app.service.planner_service import PlannerService
+from src.app.service.code_request_service import CodeRequestService
 from src.app.service.story_service import StoryService
 from src.app.ai_dev_workflow import AiDevWorkflow
 from src.infrastructure.ai.llm_client import LlmClient
-from src.infrastructure.cicd.code_builder import CodeBuilder
+from src.infrastructure.ci.code_builder import CodeBuilder
 from src.infrastructure.db.json_storage import JsonStorage
 from src.infrastructure.db.story_storage import StoryStorage
 from src.infrastructure.github.repository_client import RepositoryClient
@@ -25,9 +26,16 @@ story_storage = StoryStorage(storage, log)
 
 # services: logic units
 planner_service = PlannerService(llm_client, story_storage, log)
+code_request_service = CodeRequestService(llm_client, story_storage, log)
 story_service = StoryService(issues_client, story_storage, log)
 development_service = DevelopmentService(
-    llm_client, git_repo_client, code_builder, planner_service, story_storage, log
+    llm_client,
+    git_repo_client,
+    code_builder,
+    planner_service,
+    code_request_service,
+    story_storage,
+    log,
 )
 
 # high-level workflow structures

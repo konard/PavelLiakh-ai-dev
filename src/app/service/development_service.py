@@ -39,6 +39,8 @@ class DevelopmentService:
 
         repository_context = self._get_repo_context(story)
         self._add_plan_to_repo(story, repository_context)
+        self._add_generated_code_to_repo(story, repository_context)
+        self._open_pr(story, repository_context)
 
         check_result = self.code_builder.check_commit(repository_context)
         if check_result.success:
@@ -51,10 +53,27 @@ class DevelopmentService:
 
     def _add_plan_to_repo(self, story: Story, repository_context: RepoContext) -> None:
         plan_as_string = "\n".join(story.plan)
+        plan_filename = f"generated_plans/issue_{story.number}_plan.md"
         self.git_repo_client.checkout_branch(repository_context)
-        self.git_repo_client.patch_file(repository_context, "plan.md", plan_as_string, "Add plan")
+        self.git_repo_client.patch_file(
+            repository_context, plan_filename, plan_as_string, f"Add plan for story {story.number}"
+        )
         self.git_repo_client.push_changes(repository_context)
 
+    def _add_generated_code_to_repo(self, story: Story, repository_context: RepoContext) -> None:
+        self.git_repo_client.checkout_branch(repository_context)
+
+        for filename, content in story.code_files.items():
+            self.git_repo_client.patch_file(
+                repository_context,
+                filename,
+                content,
+                commit_message=f"Add generated file {filename} for story {story.number}",
+            )
+
+        self.git_repo_client.push_changes(repository_context)
+
+    def _open_pr(self, story: Story, repository_context: RepoContext) -> None:
         pr_link = self.git_repo_client.open_pr(repository_context)
         self.log.info(f"Pull request created: {pr_link}")
         story.pr_link = pr_link

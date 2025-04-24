@@ -40,13 +40,13 @@ class DevelopmentService:
         repository_context = self._get_repo_context(story)
         self._add_plan_to_repo(story, repository_context)
         self._add_generated_code_to_repo(story, repository_context)
-        self._open_pr(story, repository_context)
 
         check_result = self.code_builder.check_commit(repository_context)
         if check_result.success:
-            self.log.info(f"Code check passed for story {story.number}.")
+            self.log.info(f"Code check passed for story {story.number}: {check_result.stdout}")
+            self._open_pr(story, repository_context)
         else:
-            self.log.error(f"Code check failed for story {story.number}: {check_result.error}")
+            self.log.error(f"Code check failed for story {story.number}: {check_result.stderr}")
 
     def _get_repo_context(self, story: Story) -> RepoContext:
         return RepoContext(name=config.github_repo_name, branch=f"{BRANCH_PREFIX}{story.number}")

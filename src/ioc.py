@@ -21,7 +21,7 @@ storage = JsonStorage()
 llm_client = LlmClient(log=log)
 issues_client = IssuesClient(log)
 git_repo_client = RepositoryClient(log)
-code_builder = CodeBuilder(log)
+code_builder = CodeBuilder(log, git_repo_client)
 story_storage = StoryStorage(storage, log)
 
 # services: logic units

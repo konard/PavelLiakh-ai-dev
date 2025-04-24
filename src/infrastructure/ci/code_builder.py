@@ -32,7 +32,7 @@ class CodeBuilder:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
-                check=False  # don't raise exception, we handle it ourselves
+                check=False,  # don't raise exception, we handle it ourselves
             )
 
             if result.returncode == 0:
@@ -45,7 +45,7 @@ class CodeBuilder:
                     error="Build failed",
                     stdout=result.stdout,
                     stderr=result.stderr,
-                    exit_code=result.returncode
+                    exit_code=result.returncode,
                 )
 
         except Exception as e:

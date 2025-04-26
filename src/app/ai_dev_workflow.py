@@ -18,7 +18,7 @@ class AiDevWorkflow:
 
     def run_ai_dev_workflow(self) -> None:
         self._find_updates()
-        self._plan()
+        self._process()
 
     def _find_updates(self) -> None:
         issues = self.issues_client.get_opened_issues()
@@ -26,7 +26,7 @@ class AiDevWorkflow:
         for issue in issues:
             self.story_service.check_for_update(issue)
 
-    def _plan(self):
+    def _process(self):
         new_stories = self.story_service.get_new_stories()
         if new_stories:
             self.log.info(f"Found {len(new_stories)} new stories to plan")

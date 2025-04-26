@@ -54,7 +54,7 @@ class RepositoryClient:
                 git_repo.remote().pull()
 
     def patch_file(
-        self, repo_context: RepoContext, filename: str, new_content: str, commit_message: str
+        self, repo_context: RepoContext, filename: str, new_content: str
     ):
         local_path = self._get_local_path(repo_context.name)
         file_path = local_path / filename
@@ -62,8 +62,16 @@ class RepositoryClient:
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(new_content)
 
-        repo = GitRepo(local_path)
-        repo.git.add(filename)
+    def make_commit(
+        self, repo_context: RepoContext, commit_message: str, filename: str | None = None
+    ):
+        repo = GitRepo(self._get_local_path(repo_context.name))
+
+        if filename:
+            repo.git.add(filename)
+        else:
+            repo.git.add(all=True)
+
         repo.index.commit(commit_message)
 
     def push_changes(self, repo_context: RepoContext):

@@ -53,9 +53,7 @@ class RepositoryClient:
                 print(f"Created new branch {repo_context.branch} from {default_branch}")
                 git_repo.remote().pull()
 
-    def patch_file(
-        self, repo_context: RepoContext, filename: str, new_content: str
-    ):
+    def patch_file(self, repo_context: RepoContext, filename: str, new_content: str):
         local_path = self._get_local_path(repo_context.name)
         file_path = local_path / filename
         file_path.parent.mkdir(parents=True, exist_ok=True)

@@ -31,7 +31,7 @@ class CodeRequestService:
             ],
         )
 
-        user_request = f"Story: {story.name}\n\nPlan:\n" + "\n".join(story.plan)
+        user_request = f"Story: {story.name}\n\nPlan:\n" + "\n".join(story.build_plan)
         response = self.llm_client.generate_response(
             system_prompt.to_str(), user_request, CodeFiles
         )

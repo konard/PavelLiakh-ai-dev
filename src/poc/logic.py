@@ -1,4 +1,12 @@
-def plan(task: str) -> str:
-    """Plan the given task and return the plan"""
+from src.app.domain.story import Story
+from src.ioc import planner_service
+
+def build_plan(task: str) -> str:
+    story = Story(
+        description=task
+    )
+
+    plan = planner_service.plan(story)
+
     # For now just return a simple response, but this could call LLM later
-    return f"Plan for: {task}\n1. Analyze requirements\n2. Design solution\n3. Implement code\n4. Test changes"
+    return f"Task: {task}\n\nPlan:\n{plan}"

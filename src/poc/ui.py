@@ -1,5 +1,5 @@
 from nicegui import ui
-from logic import plan
+from logic import build_plan
 
 DEFAULT_TASK = 'Implement user login feature'
 task_input = None
@@ -9,7 +9,7 @@ def on_plan():
     """Handle plan button click"""
     task = task_input.value
     if task:
-        plan_result = plan(task)
+        plan_result = build_plan(task)
         output_area.value = plan_result
 
 def create_ui():

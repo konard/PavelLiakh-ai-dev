@@ -6,11 +6,18 @@ start_time=$(date +%s)
 poetry config virtualenvs.create true
 poetry config virtualenvs.in-project true
 
+git submodule update --init --recursive
+if [ $? -ne 0 ]; then
+    echo "``git submodule update --init --recursive`` failed. Exiting."
+    exit 1
+fi
+
 poetry lock
 if [ $? -ne 0 ]; then
     echo "``poetry lock`` failed. Exiting."
     exit 1
 fi
+
 poetry install
 if [ $? -ne 0 ]; then
     echo "``poetry install`` failed. Exiting."

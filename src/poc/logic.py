@@ -1,10 +1,9 @@
 from src.app.domain.story import Story
 from src.ioc import planner_service
 
+
 def build_plan(task: str) -> str:
-    story = Story(
-        description=task
-    )
+    story = Story(description=task)
 
     plan = planner_service.plan(story)
 

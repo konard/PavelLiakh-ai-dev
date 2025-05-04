@@ -1,6 +1,7 @@
 from nicegui import ui
 from ui import create_ui
 
+
 def main():
     create_ui()
     ui.run(title="My NiceGUI App", host="localhost", port=80)

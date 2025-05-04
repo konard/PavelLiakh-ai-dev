@@ -26,15 +26,12 @@ class ProjectStructure(BaseModel):
 
 
 class ProjectAnalyzer:
-    def __init__(
-        self, 
-        language_lib_path='build/my-languages.so'
-    ):
+    def __init__(self, language_lib_path="build/my-languages.so"):
         if not os.path.exists(language_lib_path):
             raise FileNotFoundError(
                 f"{language_lib_path} not found. Please run 'poetry run build-grammar' first."
             )
-        self.language = Language(language_lib_path, 'python')
+        self.language = Language(language_lib_path, "python")
         self.parser = Parser()
         self.parser.set_language(self.language)
 
@@ -65,9 +62,7 @@ class ProjectAnalyzer:
                 func_name = node.child_by_field_name("name").text.decode()
                 params = node.child_by_field_name("parameters")
                 args = [
-                    param.text.decode()
-                    for param in params.children
-                    if param.type == "identifier"
+                    param.text.decode() for param in params.children if param.type == "identifier"
                 ]
                 method = Method(method=func_name, args=args)
                 if current_class:
@@ -88,7 +83,6 @@ class ProjectAnalyzer:
 
         return FileStructure(imports=imports, classes=classes, functions=functions)
 
-
     def analyze_project_structure(self, project_root) -> ProjectStructure:
         project_summary = {}
         for root, dirs, files in os.walk(project_root):
@@ -100,7 +94,6 @@ class ProjectAnalyzer:
                     project_summary[rel_path] = file_structure
 
         return ProjectStructure(files=project_summary)
-
 
     def save_project_structure(self, project_root, output_path):
         project_structure = self.analyze_project_structure(project_root)

@@ -1,5 +1,6 @@
 """This is the Inversion of Control / Dependency Injection container implementation"""
 
+from src.app.service.code_repo_service import CodeRepoServise
 from src.app.service.development_service import DevelopmentService
 from src.app.service.planner_service import PlannerService
 from src.app.service.code_request_service import CodeRequestService
@@ -37,6 +38,7 @@ development_service = DevelopmentService(
     story_storage,
     log,
 )
+code_repo_service = CodeRepoServise(log)
 
 # high-level workflow structures
 ai_dev_workflow = AiDevWorkflow(issues_client, story_service, development_service, log)

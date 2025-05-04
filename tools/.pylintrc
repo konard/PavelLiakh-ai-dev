@@ -1,3 +1,3 @@
 [MASTER]
-ignore=migrations
+ignore=.venv,migrations,vendor
 disable=missing-module-docstring,missing-class-docstring,too-few-public-methods,wrong-import-position,wrong-import-order,missing-function-docstring,unused-argument,line-too-long,global-statement,broad-exception-caught,logging-fstring-interpolation,inconsistent-return-statements,too-many-arguments,too-many-positional-arguments,too-many-instance-attributes

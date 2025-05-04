@@ -37,7 +37,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "================Formatting code"
-poetry run black ./ --exclude ".venv" --line-length 100 -q
+poetry run black ./ --exclude '(\/(\.venv|vendor|build)\/)' --line-length 100 -q
 if [ $? -ne 0 ]; then
     echo "``black`` failed. Exiting."
     exit 1
@@ -45,7 +45,7 @@ fi
 
 # run static code analysis, excluding the .venv directory
 echo "================Running static code analysis"
-poetry run pylint  --rcfile=tools/.pylintrc ./ --ignore=".venv" --disable=all --enable=F
+poetry run pylint  --rcfile=tools/.pylintrc ./ --disable=all --enable=F
 if [ $? -ne 0 ]; then
     echo "``Linter`` failed. Exiting."
     exit 1

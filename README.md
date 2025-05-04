@@ -30,3 +30,9 @@ AI-powered developer.
   ```
   poetry run ai-dev
   ```
+
+## Debug Mode
+
+FYI There is a UI for testing `Planner` logic.
+
+In order to use it do run `src/poc/runner.py` and open `localhost` in browser.

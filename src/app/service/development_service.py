@@ -56,7 +56,7 @@ class DevelopmentService:
         return RepoContext(name=config.github_repo_name, branch=f"{BRANCH_PREFIX}{story.number}")
 
     def _add_plan_to_repo(self, story: Story, repository_context: RepoContext) -> None:
-        plan_as_string = "\n".join(story.plan)
+        plan_as_string = "\n".join(story.build_plan)
         plan_filename = f"generated_plans/issue_{story.number}_plan.md"
         self.git_repo_client.checkout_branch(repository_context)
         self.git_repo_client.patch_file(repository_context, plan_filename, plan_as_string)

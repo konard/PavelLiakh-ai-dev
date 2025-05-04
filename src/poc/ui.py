@@ -1,5 +1,5 @@
 from nicegui import ui
-from logic import build_plan
+from src.poc.logic import build_plan
 
 DEFAULT_TASK = "Implement user login feature"
 task_input = None

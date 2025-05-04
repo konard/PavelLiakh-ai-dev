@@ -15,6 +15,7 @@ class ProjectAnalyzer:
         self.parser.set_language(self.language)
 
     def analyze_file_structure(self, file_path):
+
         with open(file_path, 'rb') as f:
             source = f.read()
 
@@ -28,6 +29,7 @@ class ProjectAnalyzer:
         }
 
         def traverse(node, current_class=None):
+
             if node.type == 'import_statement' or node.type == 'import_from_statement':
                 import_text = source[node.start_byte:node.end_byte].decode()
                 structure['imports'].append(import_text)

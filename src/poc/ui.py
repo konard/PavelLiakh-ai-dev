@@ -19,9 +19,16 @@ def create_ui():
     global output_area
 
     ui.label("Enter your task:")
-    task_input = ui.input("Task description", value=DEFAULT_TASK)
+
+    with ui.row().classes('w-full'):
+        task_input_component = ui.input("Task description", value=DEFAULT_TASK)
+        task_input_component.props('autogrow').classes('w-full')
+        task_input_component.on('keydown.enter', lambda e: on_plan())
+        task_input = task_input_component
+
     ui.button("Plan", on_click=on_plan)
-    output_area = ui.textarea("Plan").props("readonly outlined").classes("w-full")
+
+    output_area = ui.textarea("Plan").props("readonly outlined autogrow").classes("w-full")
 
     # Trigger planning automatically on first load
     on_plan()

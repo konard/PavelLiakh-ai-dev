@@ -20,10 +20,10 @@ def create_ui():
 
     ui.label("Enter your task:")
 
-    with ui.row().classes('w-full'):
+    with ui.row().classes("w-full"):
         task_input_component = ui.input("Task description", value=DEFAULT_TASK)
-        task_input_component.props('autogrow').classes('w-full')
-        task_input_component.on('keydown.enter', lambda e: on_plan())
+        task_input_component.props("autogrow").classes("w-full")
+        task_input_component.on("keydown.enter", lambda e: on_plan())
         task_input = task_input_component
 
     ui.button("Plan", on_click=on_plan)

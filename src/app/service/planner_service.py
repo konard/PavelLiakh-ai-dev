@@ -51,7 +51,7 @@ class PlannerService:
         self.log.info(f"Response from planner: {plan}")
         self.log.info(f"Generated plan for story #{story.number}: {plan.plan}")
 
-        story.plan = plan.plan
+        story.build_plan = plan.plan
         self.story_storage.save_story(story)
 
         return plan

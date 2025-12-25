@@ -26,7 +26,8 @@ code_builder = CodeBuilder(log, git_repo_client)
 story_storage = StoryStorage(storage, log)
 
 # services: logic units
-planner_service = PlannerService(llm_client, story_storage, log)
+code_repo_service = CodeRepoServise(log)
+planner_service = PlannerService(llm_client, story_storage, code_repo_service, log)
 code_request_service = CodeRequestService(llm_client, story_storage, log)
 story_service = StoryService(issues_client, story_storage, log)
 development_service = DevelopmentService(
@@ -38,7 +39,6 @@ development_service = DevelopmentService(
     story_storage,
     log,
 )
-code_repo_service = CodeRepoServise(log)
 
 # high-level workflow structures
 ai_dev_workflow = AiDevWorkflow(issues_client, story_service, development_service, log)

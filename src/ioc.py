@@ -36,6 +36,7 @@ development_service = DevelopmentService(
     planner_service,
     code_request_service,
     story_storage,
+    issues_client,
     log,
 )
 code_repo_service = CodeRepoServise(log)

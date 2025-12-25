@@ -8,6 +8,7 @@ from src.infrastructure.ai.llm_client import LlmClient
 from src.infrastructure.ci.code_builder import CodeBuilder
 from src.infrastructure.db.story_storage import StoryStorage
 from src.infrastructure.github.repository_client import RepoContext, RepositoryClient
+from src.infrastructure.github.issues_client import IssuesClient
 
 BRANCH_PREFIX = "ai-dev_story-"
 
@@ -21,6 +22,7 @@ class DevelopmentService:
         planner_service: PlannerService,
         code_request_service: CodeRequestService,
         story_storage: StoryStorage,
+        issues_client: IssuesClient,
         log,
     ):
         self.llm_client = llm_client
@@ -30,6 +32,7 @@ class DevelopmentService:
         self.code_request_service = code_request_service
         self.code_builder = code_builder
         self.story_storage = story_storage
+        self.issues_client = issues_client
 
     def implement(self, story: Story):
         self.planner_service.plan(story)
@@ -72,7 +75,11 @@ class DevelopmentService:
             )
 
     def _open_pr(self, story: Story, repository_context: RepoContext) -> None:
-        pr_link = self.git_repo_client.open_pr(repository_context)
+        pr_link = self.git_repo_client.open_pr(repository_context, issue_number=story.number)
         self.log.info(f"Pull request created: {pr_link}")
         story.pr_link = pr_link
         self.story_storage.save_story(story)
+
+        # Add comment to issue with PR link
+        if story.number:
+            self.issues_client.add_pr_comment(story.number, pr_link)

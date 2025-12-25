@@ -40,6 +40,18 @@ class IssuesClient:
         issue.edit(labels=new_labels)
         self.log.info(f"Updated labels for issue #{issue_number} to {new_labels}")
 
+    def add_pr_comment(self, issue_number: int, pr_url: str):
+        """Add a comment to the issue with a link to the PR"""
+        repo = self._github.get_repo(config.github_repo_name)
+        issue = repo.get_issue(issue_number)
+
+        # Extract PR number from URL
+        pr_number = pr_url.split("/")[-1]
+        comment_body = f"PR opened: #{pr_number}"
+
+        issue.create_comment(comment_body)
+        self.log.info(f"Added comment to issue #{issue_number} with PR link: {pr_url}")
+
     def _convert_github_issue(self, issue: Issue) -> GithubIssue:
         return GithubIssue(
             title=issue.title,

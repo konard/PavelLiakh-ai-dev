@@ -8,8 +8,10 @@ from src.config import config
 from typing import Optional
 from instructor import patch, Mode
 
-client = OpenAI()
-client = patch(client, mode=Mode.JSON)
+client = None
+if not config.is_test():
+    client = OpenAI()
+    client = patch(client, mode=Mode.JSON)
 
 gpt_4o_mini = "gpt-4o-mini"
 o1_mini = "o1-mini"

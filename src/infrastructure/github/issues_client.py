@@ -28,8 +28,7 @@ class IssuesClient:
     def get_opened_issues(self) -> list[GithubIssue]:
         self._repo: Repository = self._github.get_repo(config.github_repo_name)
         issues_page = self._repo.get_issues()
-        issues = issues_page.get_page(0)
-        issues = [self._convert_github_issue(issue) for issue in issues]
+        issues = [self._convert_github_issue(issue) for issue in issues_page]
 
         return issues
 

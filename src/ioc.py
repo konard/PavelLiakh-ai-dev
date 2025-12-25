@@ -1,5 +1,6 @@
 """This is the Inversion of Control / Dependency Injection container implementation"""
 
+from src.app.service.aider_service import AiderService
 from src.app.service.code_repo_service import CodeRepoServise
 from src.app.service.development_service import DevelopmentService
 from src.app.service.planner_service import PlannerService
@@ -26,6 +27,7 @@ code_builder = CodeBuilder(log, git_repo_client)
 story_storage = StoryStorage(storage, log)
 
 # services: logic units
+aider_service = AiderService(log)
 planner_service = PlannerService(llm_client, story_storage, log)
 code_request_service = CodeRequestService(llm_client, story_storage, log)
 story_service = StoryService(issues_client, story_storage, log)

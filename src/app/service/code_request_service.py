@@ -31,7 +31,7 @@ class CodeRequestService:
             ],
         )
 
-        user_request = f"Story: {story.name}\n\nPlan:\n" + "\n".join(story.build_plan)
+        user_request = f"Story: {story.name}\n\nPlan:\n" + "\n".join(story.plan)
         response = self.llm_client.generate_response(
             system_prompt.to_str(), user_request, CodeFiles
         )
@@ -40,7 +40,9 @@ class CodeRequestService:
 
         code_files = response.files
 
-        self.log.info(f"Generated code files for story #{story.number}: {list(code_files.keys())}")
+        self.log.info(
+            f"Generated code files for story #{story.number}: {list(code_files.keys())}"
+        )
 
         story.code_files = code_files
         self.story_storage.save_story(story)

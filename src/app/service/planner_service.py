@@ -46,12 +46,14 @@ class PlannerService:
             ],
         )
         user_request = f"Story: {story.name}\n\nDescription: {story.description}"
-        plan = self.llm_client.generate_response(system_prompt.to_str(), user_request, Plan)
+        plan = self.llm_client.generate_response(
+            system_prompt.to_str(), user_request, Plan
+        )
 
         self.log.info(f"Response from planner: {plan}")
         self.log.info(f"Generated plan for story #{story.number}: {plan.plan}")
 
-        story.build_plan = plan.plan
+        story.plan = plan.plan
         self.story_storage.save_story(story)
 
         return plan

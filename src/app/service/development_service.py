@@ -46,22 +46,32 @@ class DevelopmentService:
 
         check_result = self.code_builder.check_commit(repository_context)
         if check_result.success:
-            self.log.info(f"Code check passed for story {story.number}: {check_result.stdout}")
+            self.log.info(
+                f"Code check passed for story {story.number}: {check_result.stdout}"
+            )
             self.git_repo_client.push_changes(repository_context)
             self._open_pr(story, repository_context)
         else:
-            self.log.error(f"Code check failed for story {story.number}: {check_result.stderr}")
+            self.log.error(
+                f"Code check failed for story {story.number}: {check_result.stderr}"
+            )
 
     def _get_repo_context(self, story: Story) -> RepoContext:
-        return RepoContext(name=config.github_repo_name, branch=f"{BRANCH_PREFIX}{story.number}")
+        return RepoContext(
+            name=config.github_repo_name, branch=f"{BRANCH_PREFIX}{story.number}"
+        )
 
     def _add_plan_to_repo(self, story: Story, repository_context: RepoContext) -> None:
-        plan_as_string = "\n".join(story.build_plan)
+        plan_as_string = "\n".join(story.plan)
         plan_filename = f"generated_plans/issue_{story.number}_plan.md"
         self.git_repo_client.checkout_branch(repository_context)
-        self.git_repo_client.patch_file(repository_context, plan_filename, plan_as_string)
+        self.git_repo_client.patch_file(
+            repository_context, plan_filename, plan_as_string
+        )
 
-    def _add_generated_code_to_repo(self, story: Story, repository_context: RepoContext) -> None:
+    def _add_generated_code_to_repo(
+        self, story: Story, repository_context: RepoContext
+    ) -> None:
         self.git_repo_client.checkout_branch(repository_context)
 
         for filename, content in story.code_files.items():

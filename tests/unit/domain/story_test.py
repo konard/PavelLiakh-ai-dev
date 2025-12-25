@@ -20,7 +20,7 @@ class TestStory(unittest.TestCase):
             description="Test description",
             comments=["Comment 1", "Comment 2"],
             state=NEW_STATE,
-            plan=["Step 1", "Step 2"],
+            build_plan=["Step 1", "Step 2"],
             pr_link="https://github.com/test/test/pull/1",
             code_files={"file1.py": "content1", "file2.py": "content2"},
         )

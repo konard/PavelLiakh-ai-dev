@@ -33,9 +33,9 @@ class TestDevelopmentService(unittest.TestCase):
             name="Test Story",
             description="Test",
             state=NEW_STATE,
-            build_plan=["Step 1"],
             code_files={"test.py": "content"},
         )
+        story.build_plan = ["Step 1"]
 
         self.code_builder.check_commit.return_value = BuildResult(success=True, stdout="Build OK")
         self.git_repo_client.open_pr.return_value = "https://github.com/test/test/pull/1"
@@ -50,9 +50,9 @@ class TestDevelopmentService(unittest.TestCase):
             number=1,
             name="Test",
             state=NEW_STATE,
-            build_plan=["Step 1"],
             code_files={"test.py": "content"},
         )
+        story.build_plan = ["Step 1"]
 
         self.code_builder.check_commit.return_value = BuildResult(success=True)
         self.git_repo_client.open_pr.return_value = "https://pr.url"
@@ -67,9 +67,9 @@ class TestDevelopmentService(unittest.TestCase):
             number=1,
             name="Test",
             state=NEW_STATE,
-            build_plan=["Step 1"],
             code_files={"file.py": "code"},
         )
+        story.build_plan = ["Step 1"]
 
         self.code_builder.check_commit.return_value = BuildResult(
             success=True, stdout="Build passed"
@@ -87,9 +87,9 @@ class TestDevelopmentService(unittest.TestCase):
             number=1,
             name="Test",
             state=NEW_STATE,
-            build_plan=["Step 1"],
             code_files={"file.py": "code"},
         )
+        story.build_plan = ["Step 1"]
 
         self.code_builder.check_commit.return_value = BuildResult(
             success=False, stderr="Build failed", exit_code=1
@@ -112,7 +112,8 @@ class TestDevelopmentService(unittest.TestCase):
             assert result.branch == f"{BRANCH_PREFIX}123"
 
     def test_add_plan_to_repo(self):
-        story = Story(number=1, build_plan=["Step 1: Do X", "Step 2: Do Y"])
+        story = Story(number=1)
+        story.build_plan = ["Step 1: Do X", "Step 2: Do Y"]
         repo_context = RepoContext(name="test/repo", branch="test-branch")
 
         self.service._add_plan_to_repo(story, repo_context)

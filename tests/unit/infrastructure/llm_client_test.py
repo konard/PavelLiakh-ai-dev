@@ -3,6 +3,7 @@ from unittest.mock import Mock, patch, MagicMock
 from pydantic import BaseModel
 
 from src.infrastructure.ai.llm_client import LlmClient
+from src.infrastructure.ai import llm_client_mock
 
 
 class MockResponse(BaseModel):
@@ -27,6 +28,7 @@ class TestLlmClient(unittest.TestCase):
     def test_generate_response_in_test_mode_returns_mock(self, mock_config):
         mock_config.is_test.return_value = True
         mock_config.openai_api_key = "test-key"
+        llm_client_mock.set_predefined_llm_response("Mocked response")
 
         client = LlmClient(self.log)
 
@@ -34,7 +36,7 @@ class TestLlmClient(unittest.TestCase):
             "System prompt", "User prompt", output_format=None
         )
 
-        assert result is not None
+        assert result == "Mocked response"
 
     @patch("src.infrastructure.ai.llm_client.config")
     @patch("src.infrastructure.ai.llm_client.client")
@@ -72,13 +74,14 @@ class TestLlmClient(unittest.TestCase):
     def test_generate_reasoned_response_in_test_mode(self, mock_config):
         mock_config.is_test.return_value = True
         mock_config.openai_api_key = "test-key"
+        llm_client_mock.set_predefined_llm_response("Reasoned response")
 
         client = LlmClient(self.log)
         result = client.generate_reasoned_response(
             system_prompt="Context", user_prompt="Question"
         )
 
-        assert result is not None
+        assert result == "Reasoned response"
 
     @patch("src.infrastructure.ai.llm_client.config")
     @patch("src.infrastructure.ai.llm_client.openai")

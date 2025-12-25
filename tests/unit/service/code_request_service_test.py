@@ -18,8 +18,8 @@ class TestCodeRequestService(unittest.TestCase):
             name="Test Story",
             description="Test description",
             state=PLANNING_STATE,
-            build_plan=["Step 1", "Step 2"],
         )
+        story.build_plan = ["Step 1", "Step 2"]
 
         mock_response = CodeFiles(files={"file1.py": "content1", "file2.py": "content2"})
         self.llm_client.generate_response.return_value = mock_response
@@ -32,9 +32,9 @@ class TestCodeRequestService(unittest.TestCase):
         story = Story(
             number=1,
             name="Implement feature",
-            build_plan=["Create main.py", "Create utils.py"],
             state=PLANNING_STATE,
         )
+        story.build_plan = ["Create main.py", "Create utils.py"]
 
         mock_response = CodeFiles(files={})
         self.llm_client.generate_response.return_value = mock_response
@@ -57,9 +57,9 @@ class TestCodeRequestService(unittest.TestCase):
         story = Story(
             number=1,
             name="Test",
-            build_plan=["Step 1"],
             state=PLANNING_STATE,
         )
+        story.build_plan = ["Step 1"]
 
         generated_files = {"app.py": "def main(): pass", "test.py": "def test(): pass"}
         mock_response = CodeFiles(files=generated_files)
@@ -71,7 +71,8 @@ class TestCodeRequestService(unittest.TestCase):
         self.story_storage.save_story.assert_called_once_with(story)
 
     def test_implement_returns_code_files_dict(self):
-        story = Story(number=1, name="Test", build_plan=["Step 1"], state=PLANNING_STATE)
+        story = Story(number=1, name="Test", state=PLANNING_STATE)
+        story.build_plan = ["Step 1"]
 
         expected_files = {"main.py": "print('hello')"}
         mock_response = CodeFiles(files=expected_files)

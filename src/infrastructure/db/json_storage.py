@@ -38,3 +38,8 @@ class JsonStorage:
         if entity_data:
             return entity_class(**entity_data)
         return None
+
+    def clear_all_collections(self) -> None:
+        for db_name, db in self._dbs.items():
+            db.truncate()
+            log.info(f"Cleared collection: {db_name}")
